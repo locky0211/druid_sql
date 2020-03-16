@@ -33,11 +33,13 @@ public class SqlInsertTableInfo {
         }
 
         String targetTableName = "";
+        String tableOwner = "";
+        String tableName = "";
         SQLExpr targetTableSQLExpr = targetTableInfoSource.getExpr();
         if (targetTableSQLExpr instanceof SQLPropertyExpr) {// insert into schema.tableA
             SQLPropertyExpr targetTableInfo = (SQLPropertyExpr) targetTableSQLExpr;
-            String tableOwner = targetTableInfo.getOwnernName();
-            String tableName = targetTableInfo.getName();
+            tableOwner = targetTableInfo.getOwnernName();
+            tableName = targetTableInfo.getName();
 
             targetTableName = StringUtils.isBlank(tableOwner) ? tableName : tableOwner + "." + tableName;
 
@@ -45,12 +47,13 @@ public class SqlInsertTableInfo {
 
             SQLIdentifierExpr targetTableIdentifier = (SQLIdentifierExpr) targetTableSQLExpr;
             targetTableName = targetTableIdentifier.getName();
+            tableName = targetTableName;
         } else {
             throw new RuntimeException("解析insert 信息! 未知的类型：[" + targetTableSQLExpr.getClass().toString() + "]");
         }
 
         //构建临时对象
-        TargetTableInfo targetTableObj = new TargetTableInfo(targetTableName);
+        TargetTableInfo targetTableObj = new TargetTableInfo(targetTableName, tableOwner, tableName);
 
         //处理insert表的字段
         List<SQLExpr> columns = insertSqlState.getColumns();
