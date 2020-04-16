@@ -40,14 +40,14 @@ public class SqlParserDruid {
 
         log.info("解析的执行编号[" + sqlNo + "]的sql：[" + insertSqlStr + "]");
         //格式化输出
-        String insertSqlStrFormat = SQLUtils.format(insertSqlStr, JdbcConstants.DB2);
+        String insertSqlStrFormat = SQLUtils.format(insertSqlStr, JdbcConstants.ORACLE);
 
         log.info("执行编号[" + sqlNo + "]的sql，解析的sql格式化：[" + insertSqlStrFormat + "]");
 
        // log.info("===================开始解析insert===start=================");
 
         //sql解析
-        List<SQLStatement> sqlStatementList = SQLUtils.parseStatements(insertSqlStr, JdbcConstants.DB2);
+        List<SQLStatement> sqlStatementList = SQLUtils.parseStatements(insertSqlStr, JdbcConstants.ORACLE);
         //解析sql总数
         int stateNum = sqlStatementList.size();
 

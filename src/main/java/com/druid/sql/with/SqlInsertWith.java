@@ -62,10 +62,12 @@ public class SqlInsertWith {
 
                 //处理insert with as部分，单个select sql
                 opSqlWithItem(sqlNode.getAlias(), withSqlSelect, tableAliasmap, tmpTableRelationTableMap, fromJoinTableColumnMap);
+                System.out.println();
             } else {
                 log.error("unknow type sqlNode in operateWithAs! sql:[" + sqlNode.toString() + "]");
             }
         }
+        System.out.println();
     }
 
     /**

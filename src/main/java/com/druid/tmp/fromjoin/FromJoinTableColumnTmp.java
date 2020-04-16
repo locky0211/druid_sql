@@ -17,6 +17,7 @@ public class FromJoinTableColumnTmp {
 
     private String columnName;//使用字段名，eg: b.name1
 
+    public boolean columnTypeConstant;//常量值
 
     //该字段源信息<表名,List<字段名>>  eg:<tableC,[name]>
     Map<String, List<String>> sourceTableInfo = new HashMap<String, List<String>>();
@@ -64,5 +65,13 @@ public class FromJoinTableColumnTmp {
         }
 
         columns.add(sourceTableColumn);
+    }
+
+    public boolean isColumnTypeConstant() {
+        return columnTypeConstant;
+    }
+
+    public void setColumnTypeConstant(boolean columnTypeConstant) {
+        this.columnTypeConstant = columnTypeConstant;
     }
 }

@@ -35,12 +35,12 @@ public class SqlSelectFrom {
             SQLUnionQuery sqlUnionQuery = (SQLUnionQuery) sqlSelectQuery;
 
             generateSelectTables((sqlUnionQuery).getLeft(), tableNameAlias, fromJoinTableColumnMap);//select 部分
-
-            if (sqlUnionQuery.getOperator() == SQLUnionOperator.MINUS || //  去最小值
-                    sqlUnionQuery.getOperator() == SQLUnionOperator.EXCEPT //排除
-                    ) {
-                return;
-            }
+//
+//            if (sqlUnionQuery.getOperator() == SQLUnionOperator.MINUS || //  去最小值
+//                    sqlUnionQuery.getOperator() == SQLUnionOperator.EXCEPT //排除
+//                    ) {
+//                return;
+//            }
 
             generateSelectTables((sqlUnionQuery).getRight(), tableNameAlias, fromJoinTableColumnMap);//MINUS 部分
             return;
@@ -71,6 +71,13 @@ public class SqlSelectFrom {
 
         //判断 select × from(select ....) 的情况
         if (SqlSelectUtil.checkSelectAll(sqlSelectQueryBlock.getSelectList())) {
+
+            if(sqlSelectQueryBlock.getFrom() instanceof SQLExprTableSource){
+                SQLExprTableSource sqlExprTableSource = (SQLExprTableSource)sqlSelectQueryBlock.getFrom();
+                // from 表名 as 别名
+                generateFromTable(sqlExprTableSource, tableNameAlias, fromJoinTableColumnMap);
+                return;
+            }
 
             SQLSubqueryTableSource subQueryTableSource = (SQLSubqueryTableSource) sqlSelectQueryBlock.getFrom();
             generateSelectTables(subQueryTableSource.getSelect(), tableNameAlias, fromJoinTableColumnMap);
@@ -292,9 +299,16 @@ public class SqlSelectFrom {
 
                 SelectTableColumnTmp tableColumnTmp = (SelectTableColumnTmp) withAsColumn;
 
-                if (StringUtils.isBlank(tableColumnTmp.getTableAlias())) {
-                    //select 字段，没有表别名
-                    continue;
+                if (StringUtils.isBlank(tableColumnTmp.getTableAlias())) {//select 字段，没有表别名
+
+                        if(tableColumnTmp.getType() == SelectTableColumnTmp.TYPE_2) {
+                                //常量作别名字段，使用
+                            String  sqlUseColumnName = tableColumnTmp.getColumnAlias();
+                            fromJoinTmp.setColumnName(sqlUseColumnName);//临时表使用字段名
+                            fromJoinTmp.setColumnTypeConstant(true);
+                            columnMap.put(sqlUseColumnName, fromJoinTmp);
+                            continue;
+                        }
                 }
 
                 String sqlUseColumnName = "";

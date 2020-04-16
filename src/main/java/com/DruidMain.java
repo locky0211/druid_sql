@@ -35,156 +35,422 @@ public class DruidMain {
 //                "WHERE A.GL_ACCT_NO_2 > 0 )";
 //
 
-//        String sql ="INSERT INTO IDS.I_LN_BUSINESS_INFO \n" +
-//                "       SELECT\n" +
-//
-//                "           ,CASE WHEN A.BUSINESSTYPE IN('2060000005701','2060000005542','2060000005625','2060000005711') THEN 'WD' WHEN SUBSTR(A.CUSTOMERID,1,1)='1' THEN 'GR'WHEN SUBSTR(A.CUSTOMERID,1,1)='2' THEN 'GS' ELSE NULL END AS DKLX\n" +
-//                "           ,NVL(A.BUSINESSTYPE,'9999') AS DKYT\n" +
-//                "           ,F.ORGNATURE AS KHLX\n" +
-//                "           ,DSP.FUN_XMDZ ('qygm',F.SCOPE,'9') AS QYGM\n" +
-//                "           ,'' AS KGXS\n" +
-//                "           ,F.INDUSTRYTYPE AS HYFL\n" +
-//                "           ,F.INDUSTRYTYPE AS DKTX\n" +
-//                "           ,CASE WHEN A.SUBJECTNO LIKE '1306%' THEN '1' ELSE DSP.FUN_XMDZ ('wjfl',SUBSTR (VALUE (C.FINALLYRESULT,B.APPLICATIONSORT),4,1),'0') END AS WJFL\n" +
-//                "           ,CASE WHEN VALUE (A.BADBALANCE,0) <> 0 THEN '3' WHEN VALUE (A.DULLBALANCE,0) <> 0 THEN '2' WHEN VALUE (A.OVERDUEBALANCE,0) <> 0 THEN '1' ELSE '0' END AS SJFL4\n" +
-//                "           ,CASE WHEN A.SUBJECTNO LIKE '1306%' THEN '11' ELSE DSP.FUN_XMDZ ('sjfl10',VALUE (C.FINALLYRESULT,B.APPLICATIONSORT),'00') END AS SJFL10\n" +
-//                "           ,NVL(A.VOUCHTYPE,'') AS DBFS\n" +
-//                "           ,D.SERIALNO AS SXH\n" +
-//                "           ,RELATIVESERIALNO2 AS HTH\n" +
-//                "           ,RELATIVESERIALNO1 AS JJH\n" +
-//                "           ,0 AS JZZBJE\n" +
-//                "           ,'' AS DKKH\n" +
-//                "           ,E.LN_DEP_ACCT_NO AS CKZH\n" +
-//                "           ,'' AS DKZLGS\n" +
-//                "           ,'' AS GRDKYT\n" +
-//                "           ,'' AS XGSYDKFL\n" +
-//                "           ,CASE WHEN E.LN_LN_PURP = 'A08' THEN '1'  ELSE '2' END AS GJJDKBS\n" +
-//                "           ,CASE WHEN SUBSTR (A.SUBJECTNO,1,4) IN ('1301','1302','1303') THEN '1' ELSE '2' END AS SNBS\n" +
-//                "           ,CASE WHEN SUBSTR (A.SUBJECTNO,1,4) IN ('1303') THEN '3' WHEN SUBSTR (A.SUBJECTNO,1,4) IN ('1302') THEN '4' ELSE '' END AS SNZZLX\n" +
-//                "           ,'' AS ZNDKYT\n" +
-//                "           ,'' AS YTDKBS\n" +
-//                "           ,CASE WHEN A.SUBJECTNO LIKE '1306%' THEN '2' ELSE DSP.FUN_XMDZ ('zffs',B.PAYTYPE,'1') END AS ZFFS\n" +
-//                "           ,CASE WHEN E.LN_RFN_STY IN ('101','301','204') THEN '5' WHEN E.LN_RFN_STY IN ('201','202') THEN '1' ELSE '7' END  AS HBFS\n" +
-//                "           ,CASE WHEN E.LN_RFN_STY = '01' THEN '6' WHEN E.LN_RFN_STY = '02' THEN '5' WHEN E.LN_COLI_CYCL_TOTL_MN_N BETWEEN 1 AND 2 THEN '1'  WHEN E.LN_COLI_CYCL_TOTL_MN_N BETWEEN 3 AND 5 THEN '2'\n" +
-//                "                WHEN E.LN_COLI_CYCL_TOTL_MN_N BETWEEN 6 AND 11 THEN '3' WHEN E.LN_COLI_CYCL_TOTL_MN_N = 12 THEN '4' ELSE '6' END AS HXFS\n" +
-//                "           ,DSP.FUN_XMDZ ('cztxbs',B.ISFINDIS,'3') AS CZTXBS\n" +
-//                "           ,'' AS TSBZ\n" +
-//                "           ,CASE WHEN DAYS (TO_DATE (I_STATEDATE, 'YYYYMMDD')) - DAYS (TO_DATE(A.MATURITY,'YYYY-MM-DD'))+1 > H.QBTS\n" +
-//                "                      THEN DAYS (TO_DATE (I_STATEDATE, 'YYYYMMDD')) - DAYS (TO_DATE(A.MATURITY,'YYYY-MM-DD'))+1\n" +
-//                "                    ELSE H.QBTS\n" +
-//                "                END AS QBTS    --欠本天数\n" +
-//                "           ,NVL(G.QXTS,0) AS QXTS    --欠息天数\n" +
-//                "           ,CASE WHEN H.QBYE> (CASE WHEN E.LN_LN_BAL <> 0 AND TO_DATE(A.MATURITY,'YYYY-MM-DD') < TO_DATE (I_STATEDATE, 'YYYYMMDD') THEN E.LN_LN_BAL ELSE 0 end) \n" +
-//                "            THEN (CASE WHEN E.LN_LN_BAL <> 0 AND TO_DATE(A.MATURITY,'YYYY-MM-DD') < TO_DATE (I_STATEDATE, 'YYYYMMDD') THEN E.LN_LN_BAL ELSE 0 END ) \n" +
-//                "            ELSE H.QBYE END\n" +
-//                "            AS QBYE    --欠本余额\n" +
-//                "           ,NVL(G.BNQXYE,0) AS BNQXYE  --表内欠息余额\n" +
-//                "           ,NVL(G.BWQXYE,0) AS BWQXYE  --表外欠息余额\n" +
-//                "           ,0 AS BYHBJE\n" +
-//                "           ,0 AS BYHXJE\n" +
-//                "           ,NULL AS ZJYCHBRQ\n" +
-//                "           ,0 AS ZJYCHBJE\n" +
-//                "           ,NULL AS ZJYCHXRQ\n" +
-//                "           ,0 AS ZJYHXJE\n" +
-//                "           ,NULL AS XQHBRQ\n" +
-//                "           ,0 AS XQHBJE\n" +
-//                "           ,NULL AS XQHXRQ\n" +
-//                "           ,0 AS XQHXJE\n" +
-//                "           ,TO_DATE(CASE WHEN E.LN_FSTM_RFN_DT_N BETWEEN 10000101 AND 99991231 THEN E.LN_FSTM_RFN_DT_N ELSE '10000101' END,'YYYYMMDD') AS SCHBRQ\n" +
-//                "           ,TO_DATE(CASE WHEN E.LN_FSTM_INTP_DT_N BETWEEN 10000101 AND 99991231 THEN E.LN_FSTM_INTP_DT_N ELSE '10000101' END,'YYYYMMDD') AS SCHXRQ\n" +
-//                "           ,'' AS CYJGTZLX\n" +
-//                "           ,'' AS GYZXSJBS\n" +
-//                "           ,'' AS ZLXXCYLX\n" +
-//                "           ,A.MANAGEUSERID AS YWGHR\n" +
-//                "           ,A.MANAGEORGID AS YWGHJGDM\n" +
-//                "           ,NULL AS ZXDKLX\n" +
-//                "           ,NULL AS XXMC\n" +
-//                "           ,NULL AS XXDZ\n" +
-//                "           ,NULL AS XXXZQHDM\n" +
-//                "           ,NULL AS XSZH\n" +
-//                "           ,NULL AS DKSJTZZ\n" +
-//                "           ,NULL AS DKSJTZZXZQHDM\n" +
-//                "           ,NULL AS FDCDKLX\n" +
-//                "           ,0 AS ZFJZMJ\n" +
-//                "           ,0 AS ZFTS\n" +
-//                "           ,0 AS DKJZB\n" +
-//                "           ,0 AS CZSRB\n" +
-//                "           ,DSP.FUN_XMDZ ('zfrzptbs',B.ISONEQ,'2') AS ZFRZPTBS\n" +
-//                "           ,NULL AS ZFRZFLXZ\n" +
-//                "           ,NULL AS ZFRZLSGX\n" +
-//                "           ,NULL AS ZFRZLX\n" +
-//                "           ,NULL AS ZFRZZJLY\n" +
-//                "           ,NULL AS ZFRZPTTX\n" +
-//                "       FROM FDS.F_LN_BUSINESS_DUEBILL_H A\n" +
-//                "        LEFT JOIN FDS.F_LN_BUSINESS_CONTRACT_H B ON A.RELATIVESERIALNO2 = B.SERIALNO AND B.FLAG5 IN ('1000','3000') AND B.END_DT='9999-12-31'\n" +
-//                "            LEFT JOIN FDS.F_LN_CLASSIFY_RESULT_H C ON A.RELATIVESERIALNO2 = C.OBJECTNO AND C.END_DT='9999-12-31' \n" +
-//                "            LEFT JOIN FDS.F_LN_BUSINESS_CONTRACT_H D ON D.RELATIVESERIALNO = B.CREDITAGGREEMENT  AND D.FLAG5 IN ('1000','3000') AND D.END_DT='9999-12-31'\n" +
-//                "            LEFT JOIN FDS.F_LN_LNLNSLNS_H E ON E.LN_LN_ACCT_NO = A.SERIALNO AND E.END_DT='9999-12-31'\n" +
-//                "            LEFT JOIN ODS.O_CMIS_ENT_INFO F ON A.CUSTOMERID=F.CUSTOMERID\n" +
-//                "            LEFT JOIN ( SELECT FK_LNLNS_KEY AS DKZH,\n" +
-//                "              DAYS (TO_DATE (I_STATEDATE, 'YYYYMMDD')) -\n" +
-//                "                 DAYS ( TO_DATE ( CASE\n" +
-//                "                                    WHEN (SELECT MAX (LN_INTC_DAYS)\n" +
-//                "                                            FROM ODS.O_CBOD_LNLNSUPY\n" +
-//                "                                           WHERE FK_LNLNS_KEY = LN.FK_LNLNS_KEY\n" +
-//                "                                           AND LN_INTC_CUTDT_N = MIN (LN.LN_INTC_CUTDT_N)) = 0\n" +
-//                "                                    THEN (SELECT MAX (LN_INTC_CUTDT_N)\n" +
-//                "                                            FROM ODS.O_CBOD_LNLNSUPY\n" +
-//                "                                           WHERE LN_INTC_CUTDT_N < MIN (LN.LN_INTC_CUTDT_N)\n" +
-//                "                                             AND LN_INTRBL = LN_ARFN_INT\n" +
-//                "                                             AND FK_LNLNS_KEY = LN.FK_LNLNS_KEY)\n" +
-//                "                                    ELSE MIN (LN.LN_INTC_CUTDT_N)\n" +
-//                "                                  END, 'YYYYMMDD')) AS QXTS,\n" +
-//                "              SUM ( CASE WHEN LN_INT_TYP IN ('2', '4')\n" +
-//                "                           THEN LN_INTRBL - LN_ARFN_INT\n" +
-//                "                         ELSE 0\n" +
-//                "                     END) AS BNQXYE,\n" +
-//                "              SUM ( CASE WHEN LN_INT_TYP IN ('2', '4')  --转贴现和系统外转贴现\n" +
-//                "                           THEN 0\n" +
-//                "                         ELSE LN_INTRBL - LN_ARFN_INT\n" +
-//                "                     END) AS BWQXYE\n" +
-//                "         FROM ODS.O_CBOD_LNLNSUPY LN\n" +
-//                "        WHERE LN_INTRBL > LN_ARFN_INT \n" +
-//                "          AND LN_INTC_CUTDT_N BETWEEN 10000101 AND I_STATEDATE\n" +
-//                "        GROUP BY FK_LNLNS_KEY\n" +
-//                "        ) G\n" +
-//                "        ON A.SERIALNO=G.DKZH\n" +
-//                "        LEFT JOIN (SELECT FK_LNLNS_KEY AS DKZH,\n" +
-//                "              DAYS (TO_DATE (I_STATEDATE, 'YYYYMMDD')) - DAYS (TO_DATE (MIN (LN_PPRD_RFN_DAY_N), 'YYYYMMDD')) AS QBTS,\n" +
-//                "              SUM (LN_CRNT_PRD_PR - LN_ARFN_PR) AS QBYE\n" +
-//                "         FROM FDS.F_LN_LNLNSDUE_H\n" +
-//                "        WHERE LN_PPRD_RFN_DAY_N BETWEEN '10000101'  AND I_STATEDATE\n" +
-//                "        AND LN_CRNT_PRD_PR > LN_ARFN_PR AND END_DT='9999-12-31'\n" +
-//                "        GROUP BY FK_LNLNS_KEY) H\n" +
-//                "        ON A.SERIALNO=H.DKZH\n" +
-//                "       WHERE (SUBSTR (A.SUBJECTNO,1,4) IN ('1301','1302','1303','1304','1305','1307','1308')) \n" +
-//                "             AND A.END_DT = '9999-12-31'";
+//        String sql ="INSERT INTO FDS.F_LN_ACCT(\n" +
+//                "      ACCT_NO\n" +
+//                "      ,CUST_FLG\n" +
+//                "      ,CUST_NO\n" +
+//                "      ,CUST_NAME\n" +
+//                "      ,CERT_TYP\n" +
+//                "      ,CERT_NO\n" +
+//                "      ,CONT_NO\n" +
+//                "      ,BILL_NO\n" +
+//                "      ,CURR_CODE\n" +
+//                "      ,CURR_IDEN\n" +
+//                "      ,CRLMT_NO\n" +
+//                "      ,PDP_CODE\n" +
+//                "      ,LOAN_TYP\n" +
+//                "      ,ORG_NO\n" +
+//                "      ,LOAN_DUE\n" +
+//                "      ,LOAN_PURP\n" +
+//                "      ,LOAN_STP\n" +
+//                "      ,LOAN_FUND_RSUR\n" +
+//                "      ,LOAN_SVR_BUS\n" +
+//                "      ,ACCT_STS\n" +
+//                "      ,RFN_TYP\n" +
+//                "      ,RFN_ACCT_NO\n" +
+//                "      ,LOAN_BUS_TYP\n" +
+//                "      ,LOAN_SULT_TYP\n" +
+//                "      ,GL_ACC_NO\n" +
+//                "      ,RFN_USE_DUE\n" +
+//                "      ,RFN_LAST_DT\n" +
+//                "      ,ACCT_BAL\n" +
+//                "      ,ACCT_NOR_BAL\n" +
+//                "      ,ACCT_DUE_BAL\n" +
+//                "      ,OPEN_DT\n" +
+//                "      ,LOAN_ACT_DT\n" +
+//                "      ,LOAN_DUE_DT\n" +
+//                "      ,RATE_DT\n" +
+//                "      ,RATE_TYP\n" +
+//                "      ,LOAN_CLSD_TYP\n" +
+//                "      ,LOAN_RATE\n" +
+//                "      ,CLOSE_DT\n" +
+//                "      ,TLR_NO\n" +
+//                "      ,COMP_INT_END_DT\n" +
+//                "      ,COMP_RATE\n" +
+//                "      ,APCL_FLG\n" +
+//                "      ,CRNT_YR_INTRBL\n" +
+//                "      ,RMRK\n" +
+//                "      ,GUAR_TYP\n" +
+//                "      ,RFN_DUE\n" +
+//                "      ,CRLMT_BAL\n" +
+//                "      ,CRLMT_USE_BAL\n" +
+//                "      ,LOAN_COG_LVL\n" +
+//                "      ,COMP_INT_FLG\n" +
+//                "      ,ACCU_COMP_INT\n" +
+//                "      ,COMP_INT_AMT\n" +
+//                "      ,LOAN_BUY_INT\n" +
+//                "      ,ETL_DT\n" +
+//                "   )WITH T1 AS (SELECT * FROM (SELECT LNS.LN_ENTR_DT_N,LNS.LN_LN_ACCT_NO,ROW_NUMBER() OVER(PARTITION BY LN_LN_ACCT_NO ORDER BY LN_ENTR_DT_N DESC) RN FROM ODS.O_CBOD_LNLNSJRN0 LNS) WHERE RN=1)\n" +
+//                "      SELECT \n" +
+//                "      fun(A.ACCT_NO,A.CUST_TYP,E.BUS_TYP)\n" +
+//                "      ,A.CUST_TYP\n" +
+//                "      ,A.CUST_NO\n" +
+//                "      ,A.CUST_NAME\n" +
+//                "      ,A.CERT_TYP\n" +
+//                "      ,A.CERT_ID\n" +
+//                "      ,E.CONT_NO\n" +
+//                "      ,E.BILL_NO\n" +
+//                "      ,A.CURR_CODE\n" +
+//                "      ,A.CURR_IDEN\n" +
+//                "      ,A.CRLMT_NO\n" +
+//                "      ,A.PDP_CODE\n" +
+//                "      ,A.LN_TYP\n" +
+//                "      ,A.BELONG_INSTN_CODE\n" +
+//                "      ,A.LN_MTHS\n" +
+//                "      ,A.LN_PURP\n" +
+//                "      ,A.LN_STY\n" +
+//                "      ,A.LN_FUND_RSUR\n" +
+//                "      ,D.DIRECTION\n" +
+//                "      ,A.ACCT_STS\n" +
+//                "      ,A.RFN_STY\n" +
+//                "      ,A.DEP_ACCT_NO\n" +
+//                "      ,E.BUS_TYP\n" +
+//                "      ,E.LASTCLASSIFYRESULT\n" +
+//                "      ,B.ACC_NO\n" +
+//                "      ,A.ARFN_SCHD_PR\n" +
+//                "      ,C.LN_ENTR_DT_N\n" +
+//                "      ,A.LN_BAL\n" +
+//                "      ,A.TOTL_LN_AMT_HYPO_AMT\n" +
+//                "      ,A.DLAY_PR_TOTL\n" +
+//                "      ,A.FLST_DT\n" +
+//                "      ,A.FRST_ALFD_DT\n" +
+//                "      ,A.DUE_DT\n" +
+//                "      ,A.FRST_ALFD_DT\n" +
+//                "      ,A.INTR_TYP\n" +
+//                "      ,A.CLSD_INTC_TYP\n" +
+//                "      ,A.FRST_INTC_INTR\n" +
+//                "      ,A.CLSD_DT\n" +
+//                "      ,A.LTST_MNTN_OPR_NO\n" +
+//                "      ,A.INT_DIS_END_DT\n" +
+//                "      ,A.INT_DIS_RATE\n" +
+//                "      ,A.APCL_FLG\n" +
+//                "      ,A.CRNT_YR_INTRBL\n" +
+//                "      ,A.RMRK\n" +
+//                "      ,D.VOUCHTYPE\n" +
+//                "      ,E.PAYCYC\n" +
+//                "      ,'0.00'\n" +
+//                "      ,'0.00'\n" +
+//                "      ,''\n" +
+//                "      ,''\n" +
+//                "      ,'0.00'\n" +
+//                "      ,'0.00'\n" +
+//                "      ,''\n" +
+//                "      ,A.ETL_DT\n" +
+//                "      FROM F_LN_LNLNSLNS A LEFT JOIN ODS.O_ODS_F_PRD_PDP_LOAN B ON A.BUS_TYP=B.LOAN_TYP\n" +
+//                "      \t\t\t\t\t   LEFT JOIN T1 C ON A.ACCT_NO=C.LN_LN_ACCT_NO\n" +
+//                "      \t\t\t\t\t   LEFT JOIN F_LN_BUSINESS_DUEBILL E ON A.ACCT_NO = E.ACCT_NO \n" +
+//                "      \t\t\t\t\t   LEFT JOIN  FDS.F_LN_BUSINESS_CONTRACT D ON   E.CONT_NO=D.CONT_NO\n" +
+//                "      ;";
 
 
-        String sql="INSERT INTO SESSION.N_F_LN_BUSINESS_PUTOUT_H(\n" +
-                "        SERIALNO\n" +
-                "        ,CONTRACTSERIALNO\n" +
-                "        ,MFCUSTOMERID\n" +
-                "        ,CUSTOMERID\n" +
-                "       \n" +
-                "    \n" +
-                "       )  SELECT\n" +
-                "      A.SERIALNO\n" +
-                "      ,A.CONTRACTSERIALNO\n" +
-                "      ,B.MFCUSTOMERID\n" +
-                "      ,A.CUSTOMERID\n" +
-                "     \n" +
-                "      FROM ODS.O_CMIS_BUSINESS_PUTOUT A LEFT JOIN ODS.O_CMIS_CUSTOMER_INFO B ON A.CUSTOMERID=B.CUSTOMERID\n" +
-                "      WHERE  A.ETL_DT = I_STATEDATE \n" +
-                "      UNION  SELECT\n" +
-                "        VC.SERIALNO_VC\n" +
-                "        ,VC.CONTRACTSERIALNO_VC\n" +
-                "        ,VC.MFCUSTOMERID_VC\n" +
-                "        ,VC.CUSTOMERID_VC\n" +
-                "      \n" +
-                "      FROM  FDS.F_LN_BUSINESS_PUTOUT_H VC\n" +
-                "     ";
+//        String sql="INSERT INTO SESSION.N_F_LN_BUSINESS_PUTOUT_H(\n" +
+//                "        SERIALNO\n" +
+//                "        ,CONTRACTSERIALNO\n" +
+//                "        ,MFCUSTOMERID\n" +
+//                "        ,CUSTOMERID\n" +
+//                "       \n" +
+//                "    \n" +
+//                "       )  SELECT\n" +
+//                "      A.SERIALNO\n" +
+//                "      ,A.CONTRACTSERIALNO\n" +
+//                "      ,B.MFCUSTOMERID\n" +
+//                "      ,A.CUSTOMERID\n" +
+//                "     \n" +
+//                "      FROM ODS.O_CMIS_BUSINESS_PUTOUT A LEFT JOIN ODS.O_CMIS_CUSTOMER_INFO B ON A.CUSTOMERID=B.CUSTOMERID\n" +
+//                "      WHERE  A.ETL_DT = I_STATEDATE \n" +
+//                "      UNION  SELECT\n" +
+//                "        VC.SERIALNO_VC\n" +
+//                "        ,VC.CONTRACTSERIALNO_VC\n" +
+//                "        ,VC.MFCUSTOMERID_VC\n" +
+//                "        ,VC.CUSTOMERID_VC\n" +
+//                "      \n" +
+//                "      FROM  FDS.F_LN_BUSINESS_PUTOUT_H VC\n" +
+//                "     ";
 
+
+        String sql="INSERT INTO DM_RPT.CORP_CUST_INFO\n" +
+                "  (DATA_DT,\n" +
+                "   OPN_ORG,\n" +
+                "   CUST_ID,\n" +
+                "   CUST_CN_NAME,\n" +
+                "   CERTNO,\n" +
+                "   RGST_ADDR,\n" +
+                "   CORP_SIZE,\n" +
+                "   CUST_BELONG_INDUSTRY,\n" +
+                "   CNNAME,\n" +
+                "   HXACTORNO,\n" +
+                "   ACTORNAME,\n" +
+                "   BJZH,\n" +
+                "   SXKH,\n" +
+                "   DFGZ,\n" +
+                "   QYWY,\n" +
+                "   CUST_CRD_LMT,\n" +
+                "   ACCT_CNY_BAL,\n" +
+                "   ACCT_YB_BAL,\n" +
+                "   ACCT_RMB_BAL,\n" +
+                "   NOTEM,\n" +
+                "   AMOUNT,\n" +
+                "   SECURITY_ACCT,\n" +
+                "   YPRISK_OPEN_AMT,\n" +
+                "   DFGZBS,\n" +
+                "   DFGZ_AMT,\n" +
+                "   LOAN_BALANCE_SJ,\n" +
+                "   LOAN_BALANCE_WJ,\n" +
+                "   DK,\n" +
+                "   LOAN_BALANCE_XY,\n" +
+                "   LOAN_BALANCE_BZ,\n" +
+                "   LOAN_BALANCE_DY,\n" +
+                "   LOAN_BALANCE_ZY,\n" +
+                "   LOAN_BALANCE_DFZY,\n" +
+                "   LOAN_BALANCE_DF)\n" +
+                "\n" +
+                "WITH  table3 as (SELECT D.CUST_ID,\n" +
+                "SUM(CASE\n" +
+                "         WHEN D.CURR_CD <> '01' AND D.BUSI_TYPE = '01' AND\n" +
+                "              D.SUBJ NOT LIKE '1321%' AND D.SUBJ NOT LIKE '9%' THEN\n" +
+                "          D.LOAN_BALANCE\n" +
+                "         ELSE\n" +
+                "          0\n" +
+                "       END) ACCT_YB_BAL,\n" +
+                "   SUM(CASE\n" +
+                "         WHEN D.CURR_CD = '01' AND D.BUSI_TYPE = '01' AND\n" +
+                "              D.SUBJ NOT LIKE '1321%' AND D.SUBJ NOT LIKE '9%' THEN\n" +
+                "          D.LOAN_BALANCE\n" +
+                "         ELSE\n" +
+                "          0\n" +
+                "       END) ACCT_RMB_BAL,\n" +
+                "   SUM(CASE\n" +
+                "         WHEN D.BUSI_TYPE = '04' THEN\n" +
+                "          D.LOAN_AMOUNT\n" +
+                "         ELSE\n" +
+                "          0\n" +
+                "       END) NOTEM,\n" +
+                "   SUM(CASE\n" +
+                "         WHEN D.BUSI_TYPE = '02' THEN\n" +
+                "          D.LOAN_BALANCE\n" +
+                "         ELSE\n" +
+                "          0\n" +
+                "       END) AMOUNT,\n" +
+                "        SUM(CASE\n" +
+                "         WHEN D.BUSI_TYPE = '02' THEN\n" +
+                "          D.LOAN_BALANCE\n" +
+                "         ELSE\n" +
+                "          0\n" +
+                "       END) AS YPRISK_OPEN_AMT --敞口含保证金，要剪掉\n" +
+                "FROM CMDATA.C_D_LOAN_ALL D --信贷各项业务明细合并表\n" +
+                "      WHERE  D.DATA_DT = V_DATA_DT\n" +
+                "         AND D.ACCOUNT_STATUS <> '0'\n" +
+                "       GROUP BY D.CUST_ID )，\n" +
+                " table7 as (SELECT D.CUST_ID,\n" +
+                "SUM(CASE\n" +
+                "          WHEN TRIM(D.CLA) IN ('30', '40', '50') THEN\n" +
+                "           D.LOAN_BALANCE\n" +
+                "          ELSE\n" +
+                "           0\n" +
+                "        END) LOAN_BALANCE_SJ， SUM(CASE\n" +
+                "     WHEN TRIM(D.ACCOUNT_STATUS) IN\n" +
+                "          ('3', '4', '5') THEN\n" +
+                "      D.LOAN_BALANCE\n" +
+                "     ELSE\n" +
+                "      0\n" +
+                "   END) LOAN_BALANCE_WJ,\n" +
+                "   SUM(CASE\n" +
+                "         WHEN D.LOAN_TYPE = '3' THEN\n" +
+                "          D.LOAN_BALANCE\n" +
+                "         ELSE\n" +
+                "          0\n" +
+                "       END) DK,\n" +
+                "   SUM(CASE\n" +
+                "         WHEN D.ASSURE_MEANS_MAIN = '00' THEN\n" +
+                "          D.LOAN_BALANCE\n" +
+                "         ELSE\n" +
+                "          0\n" +
+                "       END) LOAN_BALANCE_XY,\n" +
+                "   SUM(CASE\n" +
+                "         WHEN D.ASSURE_MEANS_MAIN = '30' THEN\n" +
+                "          D.LOAN_BALANCE\n" +
+                "         ELSE\n" +
+                "          0\n" +
+                "       END) LOAN_BALANCE_BZ,\n" +
+                "   SUM(CASE\n" +
+                "         WHEN D.ASSURE_MEANS_MAIN = '10' THEN\n" +
+                "          D.LOAN_BALANCE\n" +
+                "         ELSE\n" +
+                "          0\n" +
+                "       END) LOAN_BALANCE_DY,\n" +
+                "   SUM(CASE\n" +
+                "         WHEN D.ASSURE_MEANS_MAIN = '20' THEN\n" +
+                "          D.LOAN_BALANCE\n" +
+                "         ELSE\n" +
+                "          0\n" +
+                "       END) LOAN_BALANCE_ZY,\n" +
+                "   SUM(CASE\n" +
+                "         WHEN D.ASSURE_MEANS_MAIN = '21' THEN\n" +
+                "          D.LOAN_BALANCE\n" +
+                "         ELSE\n" +
+                "          0\n" +
+                "       END) LOAN_BALANCE_DFZY,\n" +
+                "   SUM(CASE\n" +
+                "         WHEN D.ASSURE_MEANS_MAIN = '50' THEN\n" +
+                "          D.LOAN_BALANCE\n" +
+                "         ELSE\n" +
+                "          0\n" +
+                "       END) LOAN_BALANCE_DF\n" +
+                "from  CMDATA.C_D_LOAN_INFO D\n" +
+                "      WHERE  D.DATA_DT = V_DATA_DT\n" +
+                "     AND D.SUBJ NOT LIKE '1321%' --提出委托贷款\n" +
+                "     AND D.SUBJ NOT LIKE '9%' --剔除表外贷款\n" +
+                "     AND D.LOAN_TYPE IN ('01', '03') --对公普通贷款、垫款\n" +
+                "     AND D.ACCOUNT_STATUS <> '0'\n" +
+                "     GROUP BY D.CUST_ID\n" +
+                "     )\n" +
+
+
+
+                "SELECT /*+ordered use_hash(t t1 t2 t3 t4 t5 t6 t7 t8 t9 t10)*/\n" +
+                "   T.DATA_DT,\n" +
+                "   T.OPN_ORG,\n" +
+                "   T.CUST_ID,\n" +
+                "   T.CUST_CN_NAME,\n" +
+                "   T1.CERTNO,\n" +
+                "   T.RGST_ADDR,\n" +
+                "   DECODE(T.CORP_SIZE,\n" +
+                "          'S10',\n" +
+                "          '大型企业',\n" +
+                "          'S20',\n" +
+                "          '中型企业',\n" +
+                "          'S30',\n" +
+                "          '小型企业',\n" +
+                "          'S31',\n" +
+                "          '微型企业',\n" +
+                "          'S40',\n" +
+                "          '集团企业',\n" +
+                "          'S90',\n" +
+                "          '非企业单位') CORP_SIZE,\n" +
+                "   T.CUST_BELONG_INDUSTRY,\n" +
+                "   T8.CNNAME,\n" +
+                "   T10.HXACTORNO,\n" +
+                "   T10.ACTORNAME,\n" +
+                "   CASE\n" +
+                "     WHEN  TRIM(T.BASIC_ACCT) IS NULL  THEN\n" +
+                "      '否'\n" +
+                "     ELSE\n" +
+                "      '是'\n" +
+                "   END BJZH,\n" +
+                "   CASE\n" +
+                "     WHEN  TRIM(T5.CUS_ID) IS NULL  THEN\n" +
+                "      '否'\n" +
+                "     ELSE\n" +
+                "      '是'\n" +
+                "   END SXKH,\n" +
+                "   CASE\n" +
+                "     WHEN  TRIM(T6.CUSTNO) IS NULL THEN\n" +
+                "      '否'\n" +
+                "     ELSE\n" +
+                "      '是'\n" +
+                "   END DFGZ,\n" +
+                "   CASE\n" +
+                "     WHEN T.EBK_IDTFY = '1' THEN\n" +
+                "      '是'\n" +
+                "     ELSE\n" +
+                "      '否'\n" +
+                "   END QYWY,\n" +
+                "   T5.CUST_CRD_LMT,\n" +
+                "   T2.ACCT_CNY_BAL,\n" +
+                "   T3.ACCT_YB_BAL,\n" +
+                "   T3.ACCT_RMB_BAL,\n" +
+                "   T3.NOTEM,\n" +
+                "   T3.AMOUNT,\n" +
+                "   T2.SECURITY_ACCT,\n" +
+                "    T3.YPRISK_OPEN_AMT, --敞口含保证金，要剪掉\n" +
+                "   T6.SUCCNO DFGZBS,\n" +
+                "   T6.SUCCAM DFGZ_AMT,\n" +
+                "   T7.LOAN_BALANCE_SJ，\n" +
+                "   T7.LOAN_BALANCE_WJ,\n" +
+                "   T7.DK,\n" +
+                "   T7.LOAN_BALANCE_XY,\n" +
+                "   T7.LOAN_BALANCE_BZ,\n" +
+                "   T7.LOAN_BALANCE_DY,\n" +
+                "   T7. LOAN_BALANCE_ZY,\n" +
+                "  T7.LOAN_BALANCE_DFZY,\n" +
+                "  T7.LOAN_BALANCE_DF\n" +
+                "\n" +
+                "    FROM CMDATA.C_D_CUST_CPRO T --对公客户基本信息表\n" +
+                "\n" +
+                "    LEFT JOIN OMDATA.CIF_CIFS_AID_CERT T1\n" +
+                "      ON T.CUST_ID = T1.CUSTNO\n" +
+                "     AND T1.MAINFG = '1'\n" +
+                "     AND T1.CERTTP = 'V'\n" +
+                "     AND T1.START_DT <= V_DATA_DT\n" +
+                "     AND T1.END_DT > V_DATA_DT\n" +
+                "\n" +
+                "    LEFT JOIN (\n" +
+                "    SELECT D.CUST_ID,SUM(D.ACCT_BAL) AS ACCT_BAL,\n" +
+                "    SUM(CASE WHEN D.SUBJECT LIKE '2014%' THEN D.ACCT_BAL ELSE 0 END) AS SECURITY_ACCT,\n" +
+                "    SUM(D.ACCT_CNY_BAL) AS ACCT_CNY_BAL\n" +
+                "    FROM  CMDATA.C_D_ACCT_DEPT_bal D --存款帐户表\n" +
+                "      WHERE D.DATA_DT = V_DATA_DT\n" +
+                "           AND D.CUST_TYPE IN ('2','4','8')\n" +
+                "           GROUP BY D.CUST_ID\n" +
+                "     ) T2\n" +
+                "      ON T.CUST_ID = T2.CUST_ID\n" +
+                "\n" +
+                "    LEFT JOIN table3 T3 --信贷各项业务明细合并表\n" +
+                "      ON T3.CUST_ID = T.CUST_ID\n" +
+                "\n" +
+                "    LEFT JOIN OMDATA.CMS_CUS_BASE T4 --客户共用基表\n" +
+                "      ON T4.OUT_CUS_ID = T.CUST_ID\n" +
+                "     AND T4.START_DT <= V_DATA_DT\n" +
+                "     AND T4.END_DT > V_DATA_DT\n" +
+                "\n" +
+                "    LEFT JOIN DM_RPT.DM_RPT_CUST_CRD_LMT T5\n" +
+                "      ON T5.CUS_ID = T4.CUS_ID\n" +
+                "     AND T5.DATA_DT = V_DATA_DT\n" +
+                "\n" +
+                "    LEFT JOIN (SELECT d2.data_dt,\n" +
+                "                      D1.CUSTNO,\n" +
+                "                      --SUM(D2.SUCCNO) SUCCNO,\n" +
+                "                      0 as  SUCCNO,\n" +
+                "                      --SUM(D2.SUCCAM) SUCCAM\n" +
+                "                      0 as SUCCAM\n" +
+                "                 FROM OMDATA.CBS_KNC_ACID D1, --客户与标识对应\n" +
+                "                      DM_RPT.DM_RPT_07048 D2\n" +
+                "                WHERE D2.ACCTNO = D1.DATAVL\n" +
+                "                  AND D1.DATATP = '1' --数据种类\n" +
+                "                  AND D1.START_DT <= V_DATA_DT\n" +
+                "                  AND D1.END_DT > V_DATA_DT\n" +
+                "                GROUP BY D2.DATA_DT, D1.CUSTNO) T6\n" +
+                "      ON T6.CUSTNO = T.CUST_ID\n" +
+                "     AND T6.DATA_DT = V_DATA_DT\n" +
+                "\n" +
+                "    LEFT JOIN table7  T7\n" +
+                "      ON T7.CUST_ID = T.CUST_ID\n" +
+                "\n" +
+                "    LEFT JOIN OMDATA.CMS_S_TREEDIC T8\n" +
+                "      ON T8.OPTTYPE = 'STD_GB_4754-2002'\n" +
+                "     AND T8.ENNAME = SUBSTR(T.CUST_BELONG_INDUSTRY, 2, 4)\n" +
+                "\n" +
+                "    LEFT JOIN OMDATA.CMS_CUS_COM T9 --对公客户基本信息表\n" +
+                "      ON T9.CUS_ID = T4.CUS_ID\n" +
+                "     AND T9.START_DT <= V_DATA_DT\n" +
+                "     AND T9.END_DT > V_DATA_DT\n" +
+                "\n" +
+                "    LEFT JOIN OMDATA.CMS_S_USER T10 --用户表\n" +
+                "      ON T10.ACTORNO = T9.CUST_MGR\n" +
+                "     AND T10.START_DT <= V_DATA_DT\n" +
+                "     AND T10.END_DT > V_DATA_DT\n" +
+                "\n" +
+                "   WHERE T.DATA_DT = V_DATA_DT";
         SqlParserDruid.opSqlTargetResourceByDruid(sql, "");
 
     }

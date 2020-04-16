@@ -107,11 +107,11 @@ public class AtLastUtil {
             return;
         }
 
-        if (opInsertWithOnSqlTmp(targetTableColumn, tmpTableRelationTableMap, sourceTableName, sourceColumnName)) {
+        if (opInsertWithOnSqlTmp(targetTableColumn, tmpTableRelationTableMap, sourceTableName, sourceColumnName, tableAliasmap)) {
             //处理insert...with时，临时表
             return;
         }
-        if (opFromJoinTableColumnTmp(targetTableColumn, fromJoinTableColumnMap, sourceTableName, sourceColumnName)) {
+        if (opFromJoinTableColumnTmp(targetTableColumn, fromJoinTableColumnMap, sourceTableName, sourceColumnName, tableAliasmap)) {
             //处理form关联（左/右）临时表
             return;
         }
@@ -130,7 +130,7 @@ public class AtLastUtil {
      * @param sourceColumnName
      * @return
      */
-    private static boolean opInsertWithOnSqlTmp(TargetTableColumn targetTableColumn, Map<String, Map<String, InsertWithOnSqlTmp>> tmpTableRelationTableMap, String sourceTableName, String sourceColumnName) {
+    private static boolean opInsertWithOnSqlTmp(TargetTableColumn targetTableColumn, Map<String, Map<String, InsertWithOnSqlTmp>> tmpTableRelationTableMap, String sourceTableName, String sourceColumnName, Map<String, String> tableAliasmap) {
 
         if (tmpTableRelationTableMap.size() <= 0) {
             //没有临时表信息
@@ -153,7 +153,17 @@ public class AtLastUtil {
         }
 
         //从临时表中，取该字段真实源数据字段
-        targetTableColumn.getSourceTableColumnMap().putAll(tmpTableColumnObj.getSourceTableInfo());
+        Map<String, List<String>> sourceTableInfo = tmpTableColumnObj.getSourceTableInfo();
+        for (String tableName : sourceTableInfo.keySet()) {
+            //有可能还是别名
+            String tableNameReal = tableAliasmap.get(tableName);
+            if (StringUtils.isNotBlank(tableNameReal)) {
+                targetTableColumn.getSourceTableColumnMap().put(tableNameReal, sourceTableInfo.get(tableName));
+            } else {
+                targetTableColumn.getSourceTableColumnMap().put(tableName, sourceTableInfo.get(tableName));
+            }
+
+        }
 
         return true;
     }
@@ -236,7 +246,7 @@ public class AtLastUtil {
      * @param sourceColumnName
      * @return
      */
-    private static boolean opFromJoinTableColumnTmp(TargetTableColumn targetTableColumn, Map<String, Map<String, FromJoinTableColumnTmp>> fromJoinTableColumnMap, String sourceTableName, String sourceColumnName) {
+    private static boolean opFromJoinTableColumnTmp(TargetTableColumn targetTableColumn, Map<String, Map<String, FromJoinTableColumnTmp>> fromJoinTableColumnMap, String sourceTableName, String sourceColumnName, Map<String, String> tableAliasmap) {
 
         if (fromJoinTableColumnMap.size() <= 0) {
             //没有临时表信息
@@ -258,8 +268,24 @@ public class AtLastUtil {
             return false;
         }
 
+        if(tmpTableColumnObj.isColumnTypeConstant()){
+            //常量定义别名
+            targetTableColumn.setType(TargetTableColumn.TYPE_2);
+            return true;
+        }
+
         //从临时表中，取该字段真实源数据字段
-        targetTableColumn.getSourceTableColumnMap().putAll(tmpTableColumnObj.getSourceTableInfo());
+        Map<String, List<String>> sourceTableInfo = tmpTableColumnObj.getSourceTableInfo();
+        for (String tableName : sourceTableInfo.keySet()) {
+            //有可能还是别名
+            String tableNameReal = tableAliasmap.get(tableName);
+            if (StringUtils.isNotBlank(tableNameReal)) {
+                targetTableColumn.getSourceTableColumnMap().put(tableNameReal, sourceTableInfo.get(tableName));
+            } else {
+                targetTableColumn.getSourceTableColumnMap().put(tableName, sourceTableInfo.get(tableName));
+            }
+        }
+
         return true;
     }
 
