@@ -96,7 +96,7 @@ public class SqlInsertWith {
 
 
         //选择字段
-        List<SelectTableColumnTmpBase> withAsColumns = SqlSelectInfo.operateSqlSelect(withSqlSelect, tableAliasmap, fromJoinTableColumnMap);
+        List<? extends SelectTableColumnTmpBase> withAsColumns = SqlSelectInfo.operateSqlSelect(withSqlSelect, tableAliasmap, fromJoinTableColumnMap);
         if (withAsColumns == null) {
             return;
         }

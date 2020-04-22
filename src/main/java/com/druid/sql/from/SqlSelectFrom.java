@@ -219,7 +219,7 @@ public class SqlSelectFrom {
             tableNameAlias.put(joinTmpTableAlias, joinTmpTableAlias);
 
             //选择字段
-            List<SelectTableColumnTmpBase> withAsColumns = SqlSelectInfo.operateSqlSelect(selectTableSource.getSelect(), tableNameAlias, fromJoinTableColumnMap);
+            List<? extends SelectTableColumnTmpBase> withAsColumns = SqlSelectInfo.operateSqlSelect(selectTableSource.getSelect(), tableNameAlias, fromJoinTableColumnMap);
             if (CollectionUtils.isNotEmpty(withAsColumns)) {
 
                 //关联表别名，使用字段
@@ -266,7 +266,7 @@ public class SqlSelectFrom {
      * @param columnMap
      * @param tableAliasmap
      */
-    private static void fromJoinTableColumn(String tmpTableAlias, List<SelectTableColumnTmpBase> withAsColumns, Map<String, FromJoinTableColumnTmp> columnMap, Map<String, String> tableAliasmap) {
+    private static void fromJoinTableColumn(String tmpTableAlias, List<? extends SelectTableColumnTmpBase> withAsColumns, Map<String, FromJoinTableColumnTmp> columnMap, Map<String, String> tableAliasmap) {
         for (SelectTableColumnTmpBase withAsColumn : withAsColumns) {
 
 

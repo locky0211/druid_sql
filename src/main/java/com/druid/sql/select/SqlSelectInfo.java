@@ -3,6 +3,7 @@ package com.druid.sql.select;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.expr.*;
 import com.alibaba.druid.sql.ast.statement.*;
+import com.alibaba.druid.sql.dialect.oracle.ast.expr.OracleDbLinkExpr;
 import com.druid.tmp.fromjoin.FromJoinTableColumnTmp;
 import com.druid.sql.from.SqlSelectFrom;
 import com.druid.util.SqlSelectUtil;
@@ -116,7 +117,7 @@ public class SqlSelectInfo {
      * @param sqlSelect
      * @return
      */
-    public static List<SelectTableColumnTmpBase> operateSqlSelect(SQLSelect sqlSelect, Map<String, String> tableAliasmap, Map<String, Map<String, FromJoinTableColumnTmp>> fromJoinTableColumnMap) {
+    public static List<? extends SelectTableColumnTmpBase> operateSqlSelect(SQLSelect sqlSelect, Map<String, String> tableAliasmap, Map<String, Map<String, FromJoinTableColumnTmp>> fromJoinTableColumnMap) {
 
         SQLSelectQuery sqlSelectQuery = sqlSelect.getQuery();
 
@@ -131,11 +132,36 @@ public class SqlSelectInfo {
      * @param sqlSelectQuery
      * @return
      */
-    private static List<SelectTableColumnTmpBase> operateSqlSelect(SQLSelectQuery sqlSelectQuery, Map<String, String> tableAliasmap, Map<String, Map<String, FromJoinTableColumnTmp>> fromJoinTableColumnMap) {
+    private static List<? extends SelectTableColumnTmpBase> operateSqlSelect(SQLSelectQuery sqlSelectQuery, Map<String, String> tableAliasmap, Map<String, Map<String, FromJoinTableColumnTmp>> fromJoinTableColumnMap) {
 
 
-        if (!(sqlSelectQuery instanceof SQLSelectQueryBlock)) {
+        if (!(sqlSelectQuery instanceof SQLSelectQueryBlock) && !(sqlSelectQuery instanceof  SQLUnionQuery)) {
             throw new RuntimeException("解析sql中sql部分，未知类型！[" + sqlSelectQuery.toString() + "]");
+        }
+
+        if(sqlSelectQuery instanceof  SQLUnionQuery){
+
+            SQLUnionQuery sqlUnionQuery = (SQLUnionQuery)sqlSelectQuery;
+            List<SelectSqlTmp> UnionColumnTmps = new ArrayList<SelectSqlTmp>();
+
+            //并非 select × from(select ....) 的情况
+            List<? extends SelectTableColumnTmpBase> selectColumnTmps = operateSqlSelectTop(sqlUnionQuery.getLeft(), tableAliasmap, fromJoinTableColumnMap);
+
+            //处理Union 方式，select字段
+            opUnionSelectColumn(UnionColumnTmps, selectColumnTmps);
+
+//            if (sqlUnionQuery.getOperator() == SQLUnionOperator.MINUS || //  去最小值
+//                    sqlUnionQuery.getOperator() == SQLUnionOperator.EXCEPT //排除
+//                    ) {
+//                return selectColumnTmps;
+//            }
+
+            selectColumnTmps = operateSqlSelectTop(sqlUnionQuery.getRight(), tableAliasmap, fromJoinTableColumnMap);
+
+            //处理Union 方式，select字段
+            opUnionSelectColumn(UnionColumnTmps, selectColumnTmps);
+            return UnionColumnTmps;
+
         }
 
         //select部分 sql格式转换
@@ -151,18 +177,18 @@ public class SqlSelectInfo {
      * @param sqlSelectQueryBlock
      * @return
      */
-    private static List<SelectTableColumnTmpBase> selectColumn(SQLSelectQueryBlock sqlSelectQueryBlock, Map<String, String> tableAliasmap, Map<String, Map<String, FromJoinTableColumnTmp>> fromJoinTableColumnMap) {
+    private static List<? extends SelectTableColumnTmpBase> selectColumn(SQLSelectQueryBlock sqlSelectQueryBlock, Map<String, String> tableAliasmap, Map<String, Map<String, FromJoinTableColumnTmp>> fromJoinTableColumnMap) {
 
         //判断 select × from(select ....) 的情况
         if (SqlSelectUtil.checkSelectAll(sqlSelectQueryBlock.getSelectList())) {
 
-             if(sqlSelectQueryBlock.getFrom() instanceof SQLExprTableSource ){
-               return  new ArrayList<SelectTableColumnTmpBase>();
+            if (sqlSelectQueryBlock.getFrom() instanceof SQLExprTableSource) {
+                return new ArrayList<SelectTableColumnTmpBase>();
 
-            }else{
-                 SQLSubqueryTableSource subQueryTableSource = (SQLSubqueryTableSource) sqlSelectQueryBlock.getFrom();
-                 return operateSqlSelect(subQueryTableSource.getSelect(), tableAliasmap, fromJoinTableColumnMap);
-             }
+            } else {
+                SQLSubqueryTableSource subQueryTableSource = (SQLSubqueryTableSource) sqlSelectQueryBlock.getFrom();
+                return operateSqlSelect(subQueryTableSource.getSelect(), tableAliasmap, fromJoinTableColumnMap);
+            }
         }
 
 
@@ -204,9 +230,7 @@ public class SqlSelectInfo {
             columnTmp.setColumnNames(sqlIdentifierExpr.getName());//字段名
             return columnTmp;
 
-
-        }
-        if (sqlExpr instanceof SQLPropertyExpr) {//eg:tableA.column as column
+        } else if (sqlExpr instanceof SQLPropertyExpr) {//eg:tableA.column as column
 
             SQLPropertyExpr sqlPropertyExpr = (SQLPropertyExpr) sqlExpr;
             SelectTableColumnTmp columnTmp = new SelectTableColumnTmp(SelectTableColumnTmp.TYPE_1);
@@ -214,9 +238,7 @@ public class SqlSelectInfo {
             columnTmp.setColumnNames(sqlPropertyExpr.getName());//字段名 eg:column
             columnTmp.setTableAlias(sqlPropertyExpr.getOwnernName());//表别名 tableA
             return columnTmp;
-        }
-
-        if (sqlExpr instanceof SQLMethodInvokeExpr) {//eg: function(tableA.column) as df
+        } else if (sqlExpr instanceof SQLMethodInvokeExpr) {//eg: function(tableA.column) as df
 
             SQLMethodInvokeExpr sqlMethodInvokeExpr = (SQLMethodInvokeExpr) sqlExpr;
             List<SQLExpr> sqlMethodExprs = sqlMethodInvokeExpr.getParameters();
@@ -227,40 +249,35 @@ public class SqlSelectInfo {
                 opSelectSqlTmp(sqlMethodExpr, selectSqlTmp, tableAliasmap, fromJoinTableColumnMap);
             }
             return selectSqlTmp;
-        }
-
-        if (sqlExpr instanceof SQLBinaryOpExpr) {//eg: A.GL_FIRST_LEVEL_LG_COD||GL_SECOND_LEVEL_LG_CD||GL_THIRD_LEVEL_LG_CD
+        } else if (sqlExpr instanceof SQLBinaryOpExpr) {//eg: A.GL_FIRST_LEVEL_LG_COD||GL_SECOND_LEVEL_LG_CD||GL_THIRD_LEVEL_LG_CD
             SQLBinaryOpExpr sqlBinaryOpExpr = (SQLBinaryOpExpr) sqlExpr;
 
             SelectSqlTmp selectSqlTmp = new SelectSqlTmp(SelectSqlTmp.TYPE_3);
             selectColumnSQLBinaryOpExpr(sqlBinaryOpExpr, selectSqlTmp, tableAliasmap, fromJoinTableColumnMap);
             return selectSqlTmp;
-        }
-        if (sqlExpr instanceof SQLNumericLiteralExpr//数字常量
+        } else if (sqlExpr instanceof SQLNumericLiteralExpr//数字常量
                 || sqlExpr instanceof SQLTextLiteralExpr//字符串
                 || sqlExpr instanceof SQLNullExpr//null
-                ) {
+        ) {
 
             SelectTableColumnTmp selectTableColumnTmp = new SelectTableColumnTmp(SelectTableColumnTmp.TYPE_2);
-            if(StringUtils.isNotBlank(columnAlias)){
+            if (StringUtils.isNotBlank(columnAlias)) {
                 selectTableColumnTmp.setColumnAlias(columnAlias);
             }
             return selectTableColumnTmp;
-        }
-        if (sqlExpr instanceof SQLCaseExpr) {// select case when 类型
+        } else if (sqlExpr instanceof SQLCaseExpr) {// select case when 类型
 
-            SelectSqlTmp selectSqlTmp =  SqlSelectCaseWhen.opSqlSelectCaseWhen((SQLCaseExpr) sqlExpr, tableAliasmap, fromJoinTableColumnMap);
+            SelectSqlTmp selectSqlTmp = SqlSelectCaseWhen.opSqlSelectCaseWhen((SQLCaseExpr) sqlExpr, tableAliasmap, fromJoinTableColumnMap);
             selectSqlTmp.setAliaName(columnAlias);
             return selectSqlTmp;
 
-        }
-        if (sqlExpr instanceof SQLQueryExpr) {// select 语句
+        } else if (sqlExpr instanceof SQLQueryExpr) {// select 语句
 
             //select 嵌套 select
             SQLQueryExpr sqlQueryExpr = (SQLQueryExpr) sqlExpr;
 
             //获取select 字段
-            List<SelectTableColumnTmpBase> selectTmpBases = operateSqlSelect(sqlQueryExpr.getSubQuery(), tableAliasmap, fromJoinTableColumnMap);
+            List<? extends SelectTableColumnTmpBase> selectTmpBases = operateSqlSelect(sqlQueryExpr.getSubQuery(), tableAliasmap, fromJoinTableColumnMap);
 
             //获取from表 部分内容
             SqlSelectFrom.generateSelectTables(sqlQueryExpr.getSubQuery(), tableAliasmap, fromJoinTableColumnMap);
@@ -269,11 +286,11 @@ public class SqlSelectInfo {
             selectSqlTmp.addDataBySelectTableColumnTmpBase(selectTmpBases);
 
             return selectSqlTmp;
-        } if (sqlExpr instanceof SQLAggregateExpr) {// select 语句
+        } else if (sqlExpr instanceof SQLAggregateExpr) {// select 语句
 
             SQLAggregateExpr sqlAggregateExpr = (SQLAggregateExpr) sqlExpr;
 
-            List<SQLExpr> sqlMethodExprs = sqlAggregateExpr.getArguments();;
+            List<SQLExpr> sqlMethodExprs = sqlAggregateExpr.getArguments();
 
             SelectSqlTmp selectSqlTmp = new SelectSqlTmp(SelectSqlTmp.TYPE_3);
             selectSqlTmp.setAliaName(columnAlias);
@@ -283,12 +300,23 @@ public class SqlSelectInfo {
             }
             return selectSqlTmp;
         }
+        else if (sqlExpr instanceof OracleDbLinkExpr) {
+            OracleDbLinkExpr oracleDbLinkExpr = (OracleDbLinkExpr) sqlExpr;
+
+
+
+            SelectTableColumnTmp columnTmp = new SelectTableColumnTmp(SelectTableColumnTmp.TYPE_1);
+            columnTmp.setColumnAlias(columnAlias);//字段别名
+            columnTmp.setColumnNames(oracleDbLinkExpr.getExpr().toString()+"@"+oracleDbLinkExpr.getDbLink());//字段名
+            return columnTmp;
+
+        }
         else {
-           throw new RuntimeException("unKnow SQLExpr Type!");
+            throw new RuntimeException("unKnow SQLExpr Type!");
         }
 
         //未知
-       // return new SelectTableColumnTmp(SelectTableColumnTmp.TYPE_0);
+        // return new SelectTableColumnTmp(SelectTableColumnTmp.TYPE_0);
 
     }
 

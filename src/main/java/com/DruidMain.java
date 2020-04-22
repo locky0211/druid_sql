@@ -6,34 +6,34 @@ public class DruidMain {
 
     public static void main(String[] args) throws Exception {
 
-//        String sql = "INSERT INTO S_GL_INN_ACCOUNT_D" +
-//                "(" +
-//                "STATDATE" +
-//                ",ACCTNBR" +
-//                ",CCYNBR" +
-//                ",BRNNBR" +
-//                ",ITEMCODE" +
-//                ",ITEMDR" +
-//                ",BUSNTYP" +
-//                ",ACCTNM" +
-//                ")" +
-//                "select * from ("+
-//                "SELECT " +
-//                "I_STATEDATE STATDATE" +
-//                ",A.GL_ACCT_NO def" +
-//                ",F_DEP_INN_GLACAACA.GL_CURR_COD_AUTHOR" +
-//                ",func(A.GL_OPUN_COD,123)" +
-//                ",A.GL_FIRST_LEVEL_LG_COD||GL_SECOND_LEVEL_LG_CD||GL_THIRD_LEVEL_LG_CD fd" +
-//                ",CASE  WHEN LENGTH (A.PUTOUTDATE) IN (8,10) THEN TO_DATE (A.PUTOUTDATE,'YYYYMMDD')  WHEN LENGTH (A.PUTOUTDATE) IN (11,12) THEN SELECT \n" +
-//                "                             OO.CM_INTR1 FROM  ods.O_CBOD_CMIRTIRT OO WHERE  CM_INTR_TYP ='B5'\n" +
-//                "                         AND CM_IRT_STS = '0'  END AS KHRQ " +
-//                ",'ave'" +
-//                ",null " +
-//                "FROM DC.F_DEP_INN_GLACAACA A " +
-//                "LEFT JOIN TEST_TEST B ON A.GL_ACCT_NO=B.TEST_NO " +
-//                "LEFT JOIN  DF.TEST_2 C ON A.GL_ACCT_NO=C.TEST_NO " +
-//                "WHERE A.GL_ACCT_NO_2 > 0 )";
-//
+        String sql11 = "INSERT INTO S_GL_INN_ACCOUNT_D" +
+                "(" +
+                "STATDATE" +
+                ",ACCTNBR" +
+                ",CCYNBR" +
+                ",BRNNBR" +
+                ",ITEMCODE" +
+                ",ITEMDR" +
+                ",BUSNTYP" +
+                ",ACCTNM" +
+                ")" +
+                "select * from ("+
+                "SELECT " +
+                "I_STATEDATE STATDATE" +
+                ",C.GL_ACCT_NO def" +
+                ",F_DEP_INN_GLACAACA.GL_CURR_COD_AUTHOR" +
+                ",func(A.GL_OPUN_COD,123)" +
+                ",A.GL_FIRST_LEVEL_LG_COD fd" +
+                ",CASE  WHEN LENGTH (A.PUTOUTDATE) IN (8,10) THEN TO_DATE (A.PUTOUTDATE,'YYYYMMDD')  WHEN LENGTH (A.PUTOUTDATE) IN (11,12) THEN SELECT \n" +
+                "                             OO.CM_INTR1 FROM  ods.O_CBOD_CMIRTIRT OO WHERE  CM_INTR_TYP ='B5'\n" +
+                "                         AND CM_IRT_STS = '0'  END AS KHRQ " +
+                ",'ave'" +
+                ",null " +
+                "FROM DC.F_DEP_INN_GLACAACA A " +
+                "LEFT JOIN TEST_TEST B ON A.GL_ACCT_NO=B.TEST_NO " +
+                "LEFT JOIN  JNCREDIT66.S_DIC@cms C ON A.GL_ACCT_NO=C.TEST_NO " +
+                "WHERE A.GL_ACCT_NO_2 > 0 )";
+
 
 //        String sql ="INSERT INTO FDS.F_LN_ACCT(\n" +
 //                "      ACCT_NO\n" +
@@ -451,7 +451,507 @@ public class DruidMain {
                 "     AND T10.END_DT > V_DATA_DT\n" +
                 "\n" +
                 "   WHERE T.DATA_DT = V_DATA_DT";
-        SqlParserDruid.opSqlTargetResourceByDruid(sql, "");
+
+
+        String sql2 = " INSERT INTO CMDATA.C_D_LOAN_CUST_CPRO\n" +
+                "    (DATA_DT, --????\n" +
+                "     CUS_ID, --???\n" +
+                "     CUS_NAME, --????\n" +
+                "     LOAN_CUST_ID, --?????\n" +
+                "     GUARANTEE_INSURANCE, --????\n" +
+                "     FIN_LINKMAN, --??????\n" +
+                "     FIN_CONT_MODE, --?????/???????\n" +
+                "     INDUSTRY_NAME, --????\n" +
+                "     CHANGZHOU_TECH_ENTERPRISE, --???\n" +
+                "     COM_STR_DATE, --????\n" +
+                "     INVT_AMT, --????????\n" +
+                "     LOAN_CARD, --????????\n" +
+                "     INVT_NAME, --?????\n" +
+                "     CERT_CODE_NUM, --???????\n" +
+                "     CERT_TYP, --???????std_zb_cert_typ\n" +
+                "     FAX_NUM, --????\n" +
+                "     COM_EMPLOYEE, --????\n" +
+                "     LOAN_CARD_NUM, --????\n" +
+                "     INPUT_BR_ID, --????\n" +
+                "     INPUT_DATE, --????\n" +
+                "     REG_CODE, --?????\n" +
+                "     RGST_RGST_TYPE, --??????\n" +
+                "     REG_AREA_NAME, --????\n" +
+                "     EMAIL, --????\n" +
+                "     LEGAL_NAME, --???????\n" +
+                "     LEGAL_CERT_NUM, --????????\n" +
+                "     LEGAL_CERT_TYPE, --????????\n" +
+                "     RISK_POOL, --???\n" +
+                "     BIG_RISK_CLASS, --????\n" +
+                "     EVENT_TYPE, --??????\n" +
+                "     LAST_UPD_ID, --???\n" +
+                "     LAST_UPD_DATE, --????\n" +
+                "     STOCK_CD, --????\n" +
+                "     RELA_CUST_TYPE, --?????\n" +
+                "     COM_CLL_TYPE, --????\n" +
+                "     COM_CLL_NAME, --????\n" +
+                "     AERA_CD, --??????\n" +
+                "     BASIC_ACCT, --?????\n" +
+                "     BASIC_ACCT_OPEN_ACCT_DT, --????????\n" +
+                "     GROUP_CORP_IDTFY, --??????\n" +
+                "     EXP_RIGHT_IDTFY, --??????\n" +
+                "     OPER_FIELD_AREA, --??????\n" +
+                "     OPER_FIELD_PROP, --???????\n" +
+                "     OPER_SITU, --????\n" +
+                "     CERT_CODE, --??????\n" +
+                "     CERT_TYPE, --??????std_zb_cert_typ\n" +
+                "     TECH_FLAG, --???????\n" +
+                "     CUST_MGER, --????\n" +
+                "     CUS_TYPE, --????std_zb_cus_type\n" +
+                "     CUST_BELONG_INDUSTRY, --??????\n" +
+                "     CRDT_RATING, --??????\n" +
+                "     RISK_DES, --????????\n" +
+                "     HOLD_TYPE, --????\n" +
+                "     CONT_TEL, --????\n" +
+                "     PRIVATE_ENTERPRISE, --??\n" +
+                "     CORP_SIZE, --????\n" +
+                "     CORP_RGST_FDG_DAY, --???????\n" +
+                "     ISRH, --????\n" +
+                "     BLACK_DATE, --??????\n" +
+                "     BLACK_REASON, --??????\n" +
+                "     LAST_YEAREND_TOTAL_ASSET, --??????\n" +
+                "     LIST_CORP_IDTFY, --??????\n" +
+                "     COM_CITY_SUBITEM, --??????std_zb_citytown\n" +
+                "     FARM_TYPE, --????\n" +
+                "     PROVINCE_TECH_ENTERPRISE, --???\n" +
+                "     ACU_ADDR, --??????\n" +
+                "     RECV_DCURR_TYP, --??????\n" +
+                "     RECV_CAP_AMT, --??????\n" +
+                "     ISTYPEA, --??a??????\n" +
+                "     HOME_FARM, --??????std_zx_yes_no\n" +
+                "     FIRST_CRDT_RELA_DT, --??????????\n" +
+                "     CREDIT_LIMIT_FLAG, --??????\n" +
+                "     MNG_BR_ID, --??????\n" +
+                "     GROUP_NO, --?????\n" +
+                "     GROUP_NAME, --??????\n" +
+                "     CZ_AREA, --????std_zb_cz_area\n" +
+                "     SALE_ASS, --???(?)\n" +
+                "     COM_CRD_GRADE, --????(??)std_zb_credit_grade\n" +
+                "     COM_OUT_CRD_GRADE, --????(??)std_zb_credit_grade\n" +
+                "     COM_CRD_DT, --??????\n" +
+                "     ONENUCLEAR_EIGHTGARDEN, --????\n" +
+                "     ZIP_CD, --????\n" +
+                "     CERT_EFFECT_DT, --??????\n" +
+                "     CERT_INVALID_DT, --??????\n" +
+                "     EVENT_ID, --??????\n" +
+                "     MAIN_BR_ID, --????\n" +
+                "     CUST_MGR, --??????\n" +
+                "     COM_MAIN_OPT_SCP, --????/???????\n" +
+                "     REG_STATE_CODE, --???????\n" +
+                "     RGST_CZP, --???????\n" +
+                "     RGST_ADDR, --????\n" +
+                "     RGST_CAP, --????\n" +
+                "     RGST_CAP_CURR_CD, --???????\n" +
+                "     CUS_STATUS, --??std_zb_cus_status\n" +
+                "     TOTAL_ASSET, --????(?)\n" +
+                "     COM_INS_CODE, --??????\n" +
+                "     SYS_SRC, --????\n" +
+                "     INDUST_RSTRUCT_FLG, --????????\n" +
+                "     INDUST_TRAN_FLAG, --????????\n" +
+                "     INDUST_STG_TYPE, --????????\n" +
+                "     DEFAULT_RATE, --????\n" +
+                "     ZFTZPZ_FLAG, --???????\n" +
+                "     INVEST_TYPE, --?????\n" +
+                "     COM_MRK_AREA, --???\n" +
+                "     REG_CUR_TYPE, --??????\n" +
+                "     REG_START_DATE, -- ??????????\n" +
+                "     LOAN_GREEN_FLAG, --??????STD_ZX_YES_NO\n" +
+                "     LOAN_GREEN_TYPE, --??????\n" +
+                "     LOAN_GREEN_NAME, --??????\n" +
+                "     LEGAL_ID_NO, --??????\n" +
+                "     LEGAL_ID_TYPE, --??????\n" +
+                "     REG_DFINE, --????????\n" +
+                "     IS_DEVE_AREA --???20181031?????????????????\n" +
+                "     )\n" +
+                "    SELECT /*+ ORDERED  */\n" +
+                "     V_DATA_DT                    AS DATA_DT, --????\n" +
+                "     T2.OUT_CUS_ID                AS CUS_ID, --???\n" +
+                "     T1.CUS_NAME                  AS CUS_NAME, --????\n" +
+                "     T1.CUS_ID                    AS LOAN_CUST_ID, --?????\n" +
+                "     T3.GUARANTEE_INSURANCE       AS GUARANTEE_INSURANCE, --????\n" +
+                "     T1.COM_OPERATOR              AS FIN_LINKMAN, --??????\n" +
+                "     T1.FNA_MGR                   AS FIN_CONT_MODE, --?????/???????\n" +
+                "     T1.INDUSTRY_NAME             AS INDUSTRY_NAME, --????\n" +
+                "     T3.CHANGZHOU_TECH_ENTERPRISE AS CHANGZHOU_TECH_ENTERPRISE, --???\n" +
+                "     T1.COM_STR_DATE              AS COM_STR_DATE, --????\n" +
+                "     T4.INVT_AMT                  AS INVT_AMT, --????????\n" +
+                "     T4.LOAN_CARD                 AS LOAN_CARD, --????????\n" +
+                "     T4.INVT_NAME                 AS INVT_NAME, --?????\n" +
+                "     T4.CERT_CODE                 AS CERT_CODE_NUM, --???????\n" +
+                "     --T4.CERT_TYP AS CERT_TYP, --???????std_zb_cert_typ\n" +
+                "     NVL((SELECT T2.STD_CODE\n" +
+                "           FROM CMDATA.C_CODE_STD T2\n" +
+                "          WHERE T2.CODE_NO = 'ST10008'\n" +
+                "            AND T4.CERT_TYP = T2.SRC_CODE),\n" +
+                "         T4.CERT_TYP) AS CERT_TYPE, -- ????STD_ZB_CERT_TYP\n" +
+                "     T1.FAX_CODE AS FAX_NUM, --????\n" +
+                "     T1.COM_EMPLOYEE AS COM_EMPLOYEE, --????\n" +
+                "     T1.LOAN_CARD_ID AS LOAN_CARD_NUM, --????(??ECIF)\n" +
+                "     -- T1.INPUT_BR_ID AS INPUT_BR_ID, --????\n" +
+                "     CASE\n" +
+                "       WHEN t15.BRCHNO_V5 IS NOT NULL THEN\n" +
+                "        t15.BRCHNO_V7\n" +
+                "       ELSE\n" +
+                "        T1.INPUT_BR_ID\n" +
+                "     END AS INPUT_BR_ID, --????\n" +
+                "     T1.INPUT_DATE AS INPUT_DATE, --????\n" +
+                "     T1.REG_CODE AS REG_CODE, --?????   --20190306  oyj cms??REG_CODE????ecif????????????????\n" +
+                "     T1.REG_TYPE AS RGST_RGST_TYPE, --??????\n" +
+                "     T1.REG_AREA_NAME AS REG_AREA_NAME, --????\n" +
+                "     T1.EMAIL AS EMAIL, --????\n" +
+                "     T5.COM_MRG_NAME AS LEGAL_NAME, --???????\n" +
+                "     T5.COM_MRG_CERT_CODE AS LEGAL_CERT_NUM, --????????\n" +
+                "     -- T5.COM_MRG_CERT_TYP AS LEGAL_CERT_TYPE, --????????\n" +
+                "     NVL((SELECT T2.STD_CODE\n" +
+                "           FROM CMDATA.C_CODE_STD T2\n" +
+                "          WHERE T2.CODE_NO = 'ST10008'\n" +
+                "            AND T5.COM_MRG_CERT_TYP = T2.SRC_CODE),\n" +
+                "         T5.COM_MRG_CERT_TYP) AS LEGAL_CERT_TYPE, --????????\n" +
+                "     T3.RISK_POOL AS RISK_POOL, --???\n" +
+                "     T1.BIG_RISK_CLASS AS BIG_RISK_CLASS, --????\n" +
+                "     T6.EVENT_TYPE AS EVENT_TYPE, --??????\n" +
+                "     T1.LAST_UPD_ID AS LAST_UPD_ID, --???\n" +
+                "     T1.LAST_UPD_DATE AS LAST_UPD_DATE, --????\n" +
+                "     T1.COM_STOCK_ID AS STOCK_CD, --????\n" +
+                "     /*     CASE\n" +
+                "       WHEN TRIM(T11.CUS_TYPE) = '?????' THEN\n" +
+                "        '1' -- 1 ???\n" +
+                "       WHEN TRIM(T11.CUS_TYPE) = '????' THEN\n" +
+                "        '2' --2 ??\n" +
+                "       ELSE\n" +
+                "        '3' --????\n" +
+                "     END AS RELA_CUST_TYPE, --?????*/\n" +
+                "     CASE\n" +
+                "       WHEN T11.GLR_CARD_TYPE = '1' THEN\n" +
+                "        '1' -- 1 ???\n" +
+                "       WHEN T11.GLR_CARD_TYPE = '2' THEN\n" +
+                "        '2' --2 ??\n" +
+                "       ELSE\n" +
+                "        '3' --????\n" +
+                "     END AS RELA_CUST_TYPE, --?????\n" +
+                "     T1.COM_CLL_TYPE AS COM_CLL_TYPE, --????\n" +
+                "     T1.COM_CLL_NAME AS COM_CLL_NAME, --????\n" +
+                "     T1.REG_STATE_CODE AS AERA_CD, --??????\n" +
+                "     T1.BAS_ACC_NO AS BASIC_ACCT, --?????\n" +
+                "     T1.BAS_ACC_DATE AS BASIC_ACCT_OPEN_ACCT_DT, --????????\n" +
+                "     CASE\n" +
+                "       WHEN T1.COM_GRP_MODE IN ('3', '4') THEN\n" +
+                "        '1'\n" +
+                "       ELSE\n" +
+                "        '0'\n" +
+                "     END AS GROUP_CORP_IDTFY, --?????? (1?, 0?)\n" +
+                "     DECODE(T1.COM_IMP_EXP_FLG, '1', 'Y', '2', 'N') AS EXP_RIGHT_IDTFY, --??????\n" +
+                "     --T1.COM_OPT_AERA AS OPER_FIELD_AREA, --??????\n" +
+                "     T21.MNG_OPERATE_AREA AS OPER_FIELD_AREA, --???20190306 oyj  cms??COM_OPT_AERA??????ecif??,\n" +
+                "     --T1.COM_OPT_OWNER AS OPER_FIELD_PROP, --???????\n" +
+                "     DECODE(SUBSTR(T21.MNG_OPERATE_OWNERSHIP, 5),\n" +
+                "            '9',\n" +
+                "            '3',\n" +
+                "            SUBSTR(T21.MNG_OPERATE_OWNERSHIP, 5)) AS OPER_FIELD_PROP, --???20190306 oyj  cms??COM_OPT_OWNER??????ecif???C004 ECF_CODE_STRING C004\n" +
+                "     --T1.COM_OPT_ST AS OPER_SITU, --????\n" +
+                "     SUBSTR(T21.MNG_SITUATION, 5) AS OPER_SITU, --???20190306 oyj  cms??COM_OPT_ST??????ecif??? C005 CF_CODE_STRING C005\n" +
+                "     T1.CERT_CODE AS CERT_CODE, --??????\n" +
+                "     --T1.CERT_TYPE AS CERT_TYPE, --??????std_zb_cert_typ\n" +
+                "     NVL((SELECT T2.STD_CODE\n" +
+                "           FROM CMDATA.C_CODE_STD T2\n" +
+                "          WHERE T2.CODE_NO = 'ST10008'\n" +
+                "            AND T1.CERT_TYPE = T2.SRC_CODE),\n" +
+                "         T1.CERT_TYPE) AS CERT_TYPE, --??????std_zb_cert_typ\n" +
+                "     CASE\n" +
+                "       WHEN T3.CUS_NAME IS NOT NULL THEN\n" +
+                "        NVL(TRIM(T3.TECH_FLAG), '3')\n" +
+                "       ELSE\n" +
+                "        ''\n" +
+                "     END AS TECH_FLAG, --???????\n" +
+                "     T1.CUST_MGR AS CUST_MGER, --????\n" +
+                "     T1.CUS_TYPE AS CUS_TYPE, --????std_zb_cus_type\n" +
+                "     /*     NVL((SELECT T2.STD_CODE\n" +
+                "       FROM CMDATA.C_CODE_STD T2\n" +
+                "      WHERE T2.CODE_NO = 'ST10003'\n" +
+                "        AND T1.CUS_TYPE = T2.SRC_CODE),\n" +
+                "     T1.CUS_TYPE) AS CUS_TYPE, --????std_zb_cus_type   */\n" +
+                "     T1.COM_CLL_TYPE AS CUST_BELONG_INDUSTRY, --??????\n" +
+                "     CASE\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('00', '170') THEN\n" +
+                "        '???'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('11', '010') THEN\n" +
+                "        'AAA'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('020') THEN\n" +
+                "        'AA+'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('12', '030') THEN\n" +
+                "        'AA'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('040') THEN\n" +
+                "        'AA-'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('050') THEN\n" +
+                "        'A+'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('13', '060') THEN\n" +
+                "        'A'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('070') THEN\n" +
+                "        'A-'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('080') THEN\n" +
+                "        'BBB+'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('14', '090') THEN\n" +
+                "        'BBB'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('100') THEN\n" +
+                "        'BBB-'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('15', '110') THEN\n" +
+                "        'BB'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('16', '120') THEN\n" +
+                "        'B'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('17', '130') THEN\n" +
+                "        'CCC'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('18', '140') THEN\n" +
+                "        'CC'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('19', '150') THEN\n" +
+                "        'C'\n" +
+                "       WHEN T1.COM_CRD_GRADE IN ('160') THEN\n" +
+                "        'D'\n" +
+                "     END AS CRDT_RATING, --??????\n" +
+                "     T1.RISK_DES AS RISK_DES, --????????\n" +
+                "     T1.COM_HOLD_TYPE AS HOLD_TYPE, --????\n" +
+                "     T1.PHONE AS CONT_TEL, --????\n" +
+                "     T3.PRIVATE_ENTERPRISE AS PRIVATE_ENTERPRISE, --??\n" +
+                "     T1.COM_SCALE AS CORP_SIZE, --????\n" +
+                "     T1.COM_STR_DATE AS CORP_RGST_FDG_DAY, --???????\n" +
+                "     T3.ISRH AS ISRH, --????\n" +
+                "     T9.BLACK_DATE AS BLACK_DATE, --??????\n" +
+                "     T9.BLACK_REASON AS BLACK_REASON, --??????\n" +
+                "     T1.TOTAL_ASSET AS LAST_YEAREND_TOTAL_ASSET, --??????\n" +
+                "     DECODE(T1.COM_MRK_FLG, '1', 'Y', '2', 'N') AS LIST_CORP_IDTFY, --??????\n" +
+                "     T1.COM_CITY_SUBITEM AS COM_CITY_SUBITEM, --??????std_zb_citytown\n" +
+                "     T1.COM_CITY_FLG AS FARM_TYPE, --????\n" +
+                "     T3.PROVINCE_TECH_ENTERPRISE AS PROVINCE_TECH_ENTERPRISE, --???\n" +
+                "     T1.ACU_ADDR AS ACU_ADDR, --??????\n" +
+                "     --T1.PAID_CAP_CUR_TYPE AS RECV_DCURR_TYP, --??????\n" +
+                "     NVL((SELECT T2.STD_CODE\n" +
+                "           FROM CMDATA.C_CODE_STD T2\n" +
+                "          WHERE T2.CODE_NO = 'ST0003'\n" +
+                "            AND SUBSTR(T1.PAID_CAP_CUR_TYPE, 5) = T2.SRC_CODE),\n" +
+                "         T1.PAID_CAP_CUR_TYPE) AS RECV_DCURR_TYP, --??????\n" +
+                "     T1.PAID_CAP_AMT AS RECV_CAP_AMT, --??????\n" +
+                "     T3.ISTYPEA AS ISTYPEA, --??a??????\n" +
+                "     T1.HOME_FARM AS HOME_FARM, --??????std_zx_yes_no\n" +
+                "     T1.COM_INIT_LOAN_DATE AS FIRST_CRDT_RELA_DT, --??????????\n" +
+                "     CASE\n" +
+                "       WHEN NVL(T7.CRD_LMT_AMT, 0) > 0 THEN\n" +
+                "        '1'\n" +
+                "       ELSE\n" +
+                "        '0'\n" +
+                "     END CREDIT_LIMIT_FLAG, --??????\n" +
+                "     --T1.MNG_BR_ID AS MNG_BR_ID, --??????\n" +
+                "     CASE\n" +
+                "       WHEN t18.BRCHNO_V5 IS NOT NULL THEN\n" +
+                "        t18.BRCHNO_V7\n" +
+                "       ELSE\n" +
+                "        T1.MNG_BR_ID\n" +
+                "     END AS MNG_BR_ID, --??????\n" +
+                "     T1.GRP_NO AS GROUP_NO, --?????\n" +
+                "     T10.GRP_NAME AS GROUP_NAME, --??????\n" +
+                "     T3.CZ_AREA AS CZ_AREA, --????std_zb_cz_area\n" +
+                "     T1.SALE_ASS AS SALE_ASS, --???(?)\n" +
+                "     T1.COM_CRD_GRADE AS COM_CRD_GRADE, --????(??)std_zb_credit_grade\n" +
+                "     T1.COM_OUT_CRD_GRADE AS COM_OUT_CRD_GRADE, --????(??)std_zb_credit_grade\n" +
+                "     T1.COM_CRD_DT AS COM_CRD_DT, --??????\n" +
+                "     T3.ONENUCLEAR_EIGHTGARDEN AS ONENUCLEAR_EIGHTGARDEN, --????\n" +
+                "     T1.POST_CODE AS ZIP_CD, --????\n" +
+                "     --T1.COM_INS_REG_DATE AS CERT_EFFECT_DT, --??????\n" +
+                "     T21.CERT_ISSUE_DATE AS CERT_EFFECT_DT, --???20190306 oyj ????cms COM_INS_REG_DATE???????????-??????????ecif?????????????\n" +
+                "     --T1.COM_INS_EXP_DATE AS CERT_INVALID_DT, --??????\n" +
+                "     T21.CERT_EXPD_DATE AS CERT_INVALID_DT, ----???20190306 oyj ????cms COM_INS_EXP_DATE???????????-??????????ecif?????????????\n" +
+                "     T6.EVENT_ID        AS EVENT_ID, --??????\n" +
+                "     --T1.MAIN_BR_ID AS MAIN_BR_ID, --????\n" +
+                "     CASE\n" +
+                "       WHEN t17.BRCHNO_V5 IS NOT NULL THEN\n" +
+                "        t17.BRCHNO_V7\n" +
+                "       ELSE\n" +
+                "        T1.MAIN_BR_ID\n" +
+                "     END AS MAIN_BR_ID, --????\n" +
+                "     T1.CUST_MGR AS CUST_MGR, --??????\n" +
+                "     T1.COM_MAIN_OPT_SCP AS COM_MAIN_OPT_SCP, --????/???????\n" +
+                "     T1.REG_STATE_CODE AS REG_STATE_CODE, --???????\n" +
+                "     T1.COM_COUNTRY AS RGST_CZP, --???????\n" +
+                "     T1.REG_ADDR AS RGST_ADDR, --????\n" +
+                "     T1.REG_CAP_AMT AS RGST_CAP, --????\n" +
+                "     -- T1.PAID_CAP_CUR_TYPE AS RGST_CAP_CURR_CD, --???????\n" +
+                "     NVL((SELECT T2.STD_CODE\n" +
+                "           FROM CMDATA.C_CODE_STD T2\n" +
+                "          WHERE T2.CODE_NO = 'ST0003'\n" +
+                "            AND SUBSTR(T1.PAID_CAP_CUR_TYPE, 5) = T2.SRC_CODE),\n" +
+                "         T1.PAID_CAP_CUR_TYPE) AS RGST_CAP_CURR_CD, --???????\n" +
+                "     T1.CUS_STATUS AS CUS_STATUS, --??std_zb_cus_status\n" +
+                "     T1.TOTAL_ASSET AS TOTAL_ASSET, --????(?)\n" +
+                "     --T1.COM_INS_CODE AS COM_INS_CODE, --??????\n" +
+                "     T21.COM_INS_CODE AS COM_INS_CODE, --???20190306 oyj cms??COM_INS_CODE??????ecif??\n" +
+                "     'CMS' AS SYS_SRC, --????\n" +
+                "     T1.ADJUST_TYPE AS INDUST_RSTRUCT_FLG, --????????\n" +
+                "     DECODE(TRIM(T1.UPGRADE_SIGN), '1', 'Y', 'N') AS INDUST_TRAN_FLAG, --????????\n" +
+                "     T1.INDUSTRY_TYPE AS INDUST_STG_TYPE, --????????\n" +
+                "     T1.AVERAGE_LOSS_RATE AS DEFAULT_RATE, --????\n" +
+                "     T1.ZFTZPZ_FLAG AS ZFTZPZ_FLAG, -- ???????\n" +
+                "     T1.INVEST_TYPE AS INVEST_TYPE, --?????\n" +
+                "     T1.COM_MRK_AREA AS COM_MRK_AREA, --???\n" +
+                "     -- T1.REG_CUR_TYPE AS REG_CUR_TYPE, --??????\n" +
+                "     NVL((SELECT T2.STD_CODE\n" +
+                "           FROM CMDATA.C_CODE_STD T2\n" +
+                "          WHERE T2.CODE_NO = 'ST0003'\n" +
+                "            AND SUBSTR(T1.REG_CUR_TYPE, 5) = T2.SRC_CODE),\n" +
+                "         T1.REG_CUR_TYPE) AS REG_CUR_TYPE, --??????\n" +
+                "     T1.REG_START_DATE AS REG_START_DATE, -- ??????????\n" +
+                "     T1.LOAN_GREEN_FLAG as LOAN_GREEN_FLAG, --??????STD_ZX_YES_NO\n" +
+                "     T1.LOAN_GREEN_TYPE as LOAN_GREEN_TYPE, --??????\n" +
+                "     T1.LOAN_GREEN_NAME AS LOAN_GREEN_NAME, --??????\n" +
+                "     t19.cert_no as LEGAL_ID_NO, --??????\n" +
+                "     t19.cert_type as LEGAL_ID_TYPE, --??????\n" +
+                "     T20.CNNAME AS CNNAME, --T1.REG_DFINE ?????\n" +
+                "     T1.IS_DEVE_AREA AS IS_DEVE_AREA --???20181031?????????????????\n" +
+                "      FROM JNCREDIT66.CUS_COM@cms T1\n" +
+                "     INNER JOIN JNCREDIT66.CUS_BASE@cms T2\n" +
+                "        ON T1.CUS_ID = T2.CUS_ID\n" +
+                "    /*AND T2.START_DT <= V_DATA_DT\n" +
+                "    AND T2.END_DT > V_DATA_DT\n" +
+                "    AND T2.DEL_IND = ' '*/\n" +
+                "      LEFT JOIN JNCREDIT66.CUS_COM_TECHNOLOGY@cms T3\n" +
+                "    --ON T1.CUS_ID = T3.CUS_ID\n" +
+                "        ON T1.CUS_NAME = T3.CUS_NAME\n" +
+                "    /*AND T3.START_DT <= V_DATA_DT\n" +
+                "    AND T3.END_DT > V_DATA_DT*/\n" +
+                "      LEFT JOIN (SELECT T.CUS_ID,\n" +
+                "                        MAX(T.LOAN_CARD) AS LOAN_CARD,\n" +
+                "                        MAX(T.INVT_NAME) AS INVT_NAME,\n" +
+                "                        MAX(T.CERT_CODE) AS CERT_CODE,\n" +
+                "                        MAX(T.CERT_TYP) AS CERT_TYP,\n" +
+                "                        SUM(T.INVT_AMT) AS INVT_AMT\n" +
+                "                   FROM JNCREDIT66.CUS_COM_REL_APITAL@cms T\n" +
+                "                 /*WHERE T.START_DT <= V_DATA_DT\n" +
+                "                 AND T.END_DT > V_DATA_DT*/\n" +
+                "                  GROUP BY T.CUS_ID) T4\n" +
+                "        ON T1.CUS_ID = T4.CUS_ID\n" +
+                "      LEFT JOIN (SELECT T8.CUS_ID,\n" +
+                "                        T8.CUS_ID_REL, --??????\n" +
+                "                        T8.COM_MRG_NAME, --????\n" +
+                "                        T8.COM_MRG_CERT_TYP, --??????\n" +
+                "                        T8.COM_MRG_CERT_CODE,\n" +
+                "                        T8.COM_MRG_MPHN1, --????\n" +
+                "                        ROW_NUMBER() OVER(PARTITION BY CUS_ID ORDER BY LAST_UPD_DATE DESC, CUS_ID_REL) RN\n" +
+                "                   FROM JNCREDIT66.CUS_COM_MANAGER@cms T8 --???????????\n" +
+                "                  WHERE /*T8.START_DT <= V_DATA_DT\n" +
+                "                                                                                                                                           AND T8.END_DT > V_DATA_DT\n" +
+                "                                                                                                                                           AND*/\n" +
+                "                  T8.COM_MRG_TYP = '02') T5\n" +
+                "        ON T1.CUS_ID = T5.CUS_ID\n" +
+                "       AND RN = 1\n" +
+                "      LEFT JOIN JNCREDIT66.PSP_EVENT@cms T6\n" +
+                "        ON T1.CUS_ID = T6.CUS_ID\n" +
+                "    /*AND T6.START_DT <= V_DATA_DT\n" +
+                "    AND T6.END_DT > V_DATA_DT*/\n" +
+                "    /*      LEFT JOIN (SELECT D.CERT_CODE,\n" +
+                "                     D.CUS_TYPE,\n" +
+                "                     ROW_NUMBER() OVER(PARTITION BY D.CERT_CODE ORDER BY DATA_DATE DESC) NM\n" +
+                "                FROM JNCREDIT66.CUS_BANK D --???????\n" +
+                "              UNION -- ALL 20170918  ??\n" +
+                "              SELECT --D.CUS_ID,\n" +
+                "               D.CERT_CODE,\n" +
+                "               D.CUS_TYPE,\n" +
+                "               ROW_NUMBER() OVER(PARTITION BY D.CERT_CODE ORDER BY DATA_DATE DESC) NM\n" +
+                "                FROM JNCREDIT66.CUS_MBANK_REL D --???????\n" +
+                "              ) T11\n" +
+                "     ON T11.CERT_CODE = T2.CERT_CODE\n" +
+                "    AND T11.NM = 1*/\n" +
+                "      LEFT JOIN (SELECT T1.CARD_NO, '1' AS GLR_CARD_TYPE\n" +
+                "                   FROM OMDATA.RTS_T01_RELEVANCYNATURE T1 -- ?????\n" +
+                "                 UNION\n" +
+                "                 SELECT T1.CARD_NO, '2' AS GLR_CARD_TYPE\n" +
+                "                   FROM OMDATA.RTS_T01_RELEVANCYCORP T1) T11\n" +
+                "        ON T11.CARD_NO = T2.CERT_CODE\n" +
+                "      LEFT JOIN (SELECT *\n" +
+                "                   FROM (SELECT A.CERT_CODE,\n" +
+                "                                TO_DATE(A.BLACK_DATE, 'YYYY-MM-DD') AS BLACK_DATE,\n" +
+                "                                A.BLACK_REASON,\n" +
+                "                                ROW_NUMBER() OVER(PARTITION BY A.CERT_CODE ORDER BY TO_DATE(A.BLACK_DATE, 'YYYY-MM-DD') DESC) AS MARK\n" +
+                "                           FROM JNCREDIT66.CUS_BLK@cms A\n" +
+                "                          WHERE A.CUS_TYPE = '110'\n" +
+                "                         /*AND A.START_DT <= V_DATA_DT\n" +
+                "                         AND A.END_DT > V_DATA_DT*/\n" +
+                "                         ) A3\n" +
+                "                  WHERE A3.MARK = '1') T9 --???\n" +
+                "        ON T1.CUS_ID = T9.CERT_CODE\n" +
+                "      LEFT JOIN (SELECT T.CUS_ID, SUM(T.CRD_LMT_AMT) CRD_LMT_AMT\n" +
+                "                   FROM JNCREDIT66.LMT_CONT@cms T --????\n" +
+                "                 /*WHERE T.START_DT <= V_DATA_DT\n" +
+                "                 AND T.END_DT > V_DATA_DT*/\n" +
+                "                  GROUP BY T.CUS_ID) T7\n" +
+                "        ON T1.CUS_ID = T7.CUS_ID\n" +
+                "      LEFT JOIN JNCREDIT66.CUS_GRP_INFO@cms T10\n" +
+                "        ON /*T10.START_DT <= V_DATA_DT\n" +
+                "               AND T10.END_DT > V_DATA_DT\n" +
+                "               AND T10.DEL_IND = ' '\n" +
+                "               AND*/\n" +
+                "     TRIM(T10.GRP_NO) = TRIM(T1.GRP_NO)\n" +
+                "      LEFT JOIN CMDATA.c_code_brch t15\n" +
+                "        ON T1.INPUT_BR_ID = T15.BRCHNO_V5\n" +
+                "      LEFT JOIN CMDATA.c_code_brch t17\n" +
+                "        ON T1.MAIN_BR_ID = T17.BRCHNO_V5\n" +
+                "      LEFT JOIN CMDATA.c_code_brch t18\n" +
+                "        ON T1.MNG_BR_ID = T18.BRCHNO_V5\n" +
+                "    /****************************************hou******************************************/\n" +
+                "      LEFT JOIN (select party_id, cert_type, cert_no, ecif_cust_no\n" +
+                "                   from (select b1.party_id,\n" +
+                "                                b2.cert_type,\n" +
+                "                                b2.cert_no,\n" +
+                "                                b3.ecif_cust_no,\n" +
+                "                                --?????????????????????????\n" +
+                "                                row_number() over(partition by b1.party_id order by b1.created_ts desc, b2.cert_type, b2.created_ts desc, b2.party_resolve_id) rw\n" +
+                "                           from omdata.ECF_T02_C_PAR_TO_PAR_REL b1\n" +
+                "                           left join omdata.ecf_t01_p_cert_info b2\n" +
+                "                             on b1.relation_id = b2.party_id\n" +
+                "                            and b2.pre_cert_flag = '1' --????\n" +
+                "                            and b2.start_dt <= V_DATA_DT\n" +
+                "                            and b2.end_dt > V_DATA_DT\n" +
+                "                           left join omdata.ecf_t01_c_cust_info b3\n" +
+                "                             on b1.party_id = b3.party_id\n" +
+                "                            and b3.start_dt <= V_DATA_DT\n" +
+                "                            and b3.end_dt > V_DATA_DT\n" +
+                "                            and b3.del_ind <> 'D'\n" +
+                "                          where b1.relation_type = 'A0070200400' --??\n" +
+                "                            and b1.start_dt <= V_DATA_DT\n" +
+                "                            and b1.end_dt > V_DATA_DT)\n" +
+                "                  where rw = 1) t19\n" +
+                "        on T2.OUT_CUS_ID = t19.ecif_cust_no\n" +
+                "      LEFT JOIN JNCREDIT66.S_DIC@cms T20\n" +
+                "        ON T1.REG_DFINE = T20.ENNAME\n" +
+                "       AND T20.OPTTYPE = 'STD_ZB_REG_DFINE'\n" +
+                "    -----------???20190306 oyj ?????????????????????---\n" +
+                "      LEFT JOIN (SELECT T1.ECIF_CUST_NO,\n" +
+                "                        T2.CERT_NO, --????\n" +
+                "                        T2.CERT_ISSUE_DATE, --??????????\n" +
+                "                        T2.CERT_EXPD_DATE, --????????????\n" +
+                "                        T3.CERT_NO COM_INS_CODE, --??????\n" +
+                "                        T1.MNG_OPERATE_AREA, --??????(???)\n" +
+                "                        T1.MNG_OPERATE_OWNERSHIP, --??????? C004 ECF_CODE_STRING C004\n" +
+                "                        T1.MNG_SITUATION --???? C005 CF_CODE_STRING C005\n" +
+                "                   FROM OMDATA.ECF_T01_C_CUST_INFO T1 --????????\n" +
+                "                 \n" +
+                "                   LEFT JOIN OMDATA.ECF_T01_C_CERT_INFO T2 --????????\n" +
+                "                     ON T1.PARTY_ID = T2.PARTY_ID\n" +
+                "                    AND T2.PRE_CERT_FLAG = '1' --?????\n" +
+                "                    AND T2.START_DT <= V_DATA_DT\n" +
+                "                    AND T2.END_DT > V_DATA_DT\n" +
+                "                    AND T2.DEL_IND = ' '\n" +
+                "                 \n" +
+                "                   LEFT JOIN OMDATA.ECF_T01_C_CERT_INFO T3 --????????\n" +
+                "                     ON T1.PARTY_ID = T3.PARTY_ID\n" +
+                "                    AND T3.START_DT <= V_DATA_DT\n" +
+                "                    AND T3.END_DT > V_DATA_DT\n" +
+                "                    AND T3.DEL_IND = ' '\n" +
+                "                    AND T3.CERT_TYPE = 'A00120600' --20600???????\n" +
+                "                 ) T21\n" +
+                "        ON T2.OUT_CUS_ID = T21.ECIF_CUST_NO";
+        SqlParserDruid.opSqlTargetResourceByDruid(sql2, "");
 
     }
 }

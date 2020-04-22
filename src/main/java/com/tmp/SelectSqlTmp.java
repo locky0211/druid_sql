@@ -97,7 +97,7 @@ public class SelectSqlTmp extends SelectTableColumnTmpBase {
      *
      * @param columnTmpBases
      */
-    public void addDataBySelectTableColumnTmpBase(List<SelectTableColumnTmpBase> columnTmpBases) {
+    public void addDataBySelectTableColumnTmpBase(List<? extends SelectTableColumnTmpBase> columnTmpBases) {
         if (CollectionUtils.isEmpty(columnTmpBases)) {
             return;
         }
